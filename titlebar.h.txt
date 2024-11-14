@@ -1,0 +1,176 @@
+//titlebar.h
+#include <QWidget>
+
+class TitleBar : public QWidget {
+    Q_OBJECT
+
+public:
+    explicit TitleBar(QWidget *parent = nullptr);
+
+signals:
+    void minimizeClicked();
+    void maximizeClicked();
+    void closeClicked();
+    void dragStarted(const QPoint &globalPos);
+
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+private:
+    QPoint m_dragPosition;
+    bool m_dragging = false;
+};
+
+
+//mainwindow.h
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+
+QT_BEGIN_NAMESPACE
+namespace Ui {
+class MainWindow;
+}
+QT_END_NAMESPACE
+
+class TitleBar;
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
+
+private slots:
+    void startDragging(const QPoint &globalPos);
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+
+private:
+    Ui::MainWindow *ui;
+    TitleBar *m_titleBar;
+    bool m_dragging = false;
+    QPoint m_dragPosition;
+};
+#endif // MAINWINDOW_H
+
+//mainwindow.cpp
+#include "mainwindow.h"
+#include "./ui_mainwindow.h"
+#include "titleBar.h"
+#include <QVBoxLayout>
+#include <QMouseEvent>
+
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+
+    // 隐藏默认标题栏
+    setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
+
+    m_titleBar = new TitleBar(this);
+    connect(m_titleBar, &TitleBar::minimizeClicked, this, &MainWindow::showMinimized);
+    connect(m_titleBar, &TitleBar::maximizeClicked, this, [this]() {
+        if (isMaximized()) {
+            showNormal();
+        } else {
+            showMaximized();
+        }
+    });
+    connect(m_titleBar, &TitleBar::closeClicked, this, &MainWindow::close);
+
+    // 连接拖动信号
+    connect(m_titleBar, &TitleBar::dragStarted, this, &MainWindow::startDragging);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout->addWidget(m_titleBar);
+    mainLayout->addStretch();
+
+    QWidget *centralWidget = new QWidget(this);
+    centralWidget->setLayout(mainLayout);
+    setCentralWidget(centralWidget);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+void MainWindow::startDragging(const QPoint &globalPos) {
+    m_dragging = true;
+    m_dragPosition = globalPos - frameGeometry().topLeft();
+}
+
+void MainWindow::mouseMoveEvent(QMouseEvent *event) {
+    if (m_dragging && (event->buttons() & Qt::LeftButton)) {
+        move(event->globalPosition().toPoint() - m_dragPosition);
+        event->accept();
+    }
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        m_dragging = false;
+        event->accept();
+    }
+}
+
+
+
+//titlebar.cpp
+#include "titleBar.h"
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QMouseEvent>
+
+TitleBar::TitleBar(QWidget *parent)
+    : QWidget(parent)
+{
+    setStyleSheet("background-color: #440;");
+
+    QPushButton *minimizeButton = new QPushButton("-", this);
+    QPushButton *maximizeButton = new QPushButton("□", this);
+    QPushButton *closeButton = new QPushButton("X", this);
+
+    connect(minimizeButton, &QPushButton::clicked, this, &TitleBar::minimizeClicked);
+    connect(maximizeButton, &QPushButton::clicked, this, &TitleBar::maximizeClicked);
+    connect(closeButton, &QPushButton::clicked, this, &TitleBar::closeClicked);
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->addStretch();
+    layout->addWidget(minimizeButton);
+    layout->addWidget(maximizeButton);
+    layout->addWidget(closeButton);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    parent->setLayout(layout);
+}
+
+void TitleBar::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        emit dragStarted(event->globalPosition().toPoint());
+        event->accept();
+    }
+}
+
+void TitleBar::mouseMoveEvent(QMouseEvent *event) {
+    if (m_dragging && (event->buttons() & Qt::LeftButton)) {
+        parentWidget()->move(event->globalPosition().toPoint() - m_dragPosition);
+        event->accept();
+    }
+}
+
+void TitleBar::mouseReleaseEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        m_dragging = false;
+        event->accept();
+    }
+}

@@ -1,0 +1,28 @@
+{
+	"BUILD_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/client_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/project/client",
+	"CMAKE_SOURCE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/project/client",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/client_autogen/include",
+	"INPUTS" : 
+	[
+		"C:/Users/Rito-492/Documents/Study/OOP/project/client/icons/maximize.png",
+		"C:/Users/Rito-492/Documents/Study/OOP/project/client/icons/theme.png",
+		"C:/Users/Rito-492/Documents/Study/OOP/project/client/icons/minimize.png",
+		"C:/Users/Rito-492/Documents/Study/OOP/project/client/icons/close.png"
+	],
+	"LOCK_FILE" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/client_autogen.dir/AutoRcc_resources_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "resources" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_resources.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.7.1/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/client_autogen.dir/AutoRcc_resources_EWIEGA46WW_Used.txt",
+	"SOURCE" : "C:/Users/Rito-492/Documents/Study/OOP/project/client/resources.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}
