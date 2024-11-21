@@ -1,6 +1,5 @@
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
-#include "titleBar.h"
+#include "ui_mainwindow.h"
 #include <QVBoxLayout>
 #include <QMouseEvent>
 
@@ -8,8 +7,10 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
 
+    //隐藏原标题栏
     setWindowFlags(Qt::FramelessWindowHint);
     setWindowFlags(Qt::FramelessWindowHint | Qt::WindowMinimizeButtonHint);
 

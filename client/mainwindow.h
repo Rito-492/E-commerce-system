@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "titlebar.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -9,14 +10,12 @@ class MainWindow;
 }
 QT_END_NAMESPACE
 
-class TitleBar;
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
