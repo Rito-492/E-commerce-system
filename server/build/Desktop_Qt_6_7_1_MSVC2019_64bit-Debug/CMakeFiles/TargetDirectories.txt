@@ -1,0 +1,8 @@
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/server.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/edit_cache.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/list_install_components.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/install.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/install/local.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/server_autogen_timestamp_deps.dir
+C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/CMakeFiles/server_autogen.dir

@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_server_FILE C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/server/build/Desktop_Qt_6_7_1_MSVC2019_64bit-Debug/server.exe)
+set(__QT_DEPLOY_TARGET_server_RUNTIME_DLLS C:/Qt/6.7.1/msvc2019_64/bin/Qt6Widgetsd.dll;C:/Qt/6.7.1/msvc2019_64/bin/Qt6Sqld.dll;C:/Qt/6.7.1/msvc2019_64/bin/Qt6Networkd.dll;C:/Qt/6.7.1/msvc2019_64/bin/Qt6Guid.dll;C:/Qt/6.7.1/msvc2019_64/bin/Qt6Cored.dll)

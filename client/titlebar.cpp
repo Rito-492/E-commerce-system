@@ -1,4 +1,5 @@
 #include "titlebar.h"
+
 #include <QHBoxLayout>
 
 TitleBar::TitleBar(QWidget *parent) : QWidget(parent)

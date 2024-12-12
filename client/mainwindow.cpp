@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "tcpclient.h"
+
 #include <QVBoxLayout>
 #include <QMouseEvent>
 
@@ -33,6 +35,9 @@ MainWindow::MainWindow(QWidget *parent)
     QWidget *centralWidget = new QWidget(this);
     centralWidget->setLayout(mainLayout);
     setCentralWidget(centralWidget);
+
+    TcpClient client;
+    client.connectToServer("127.0.0.1", 8284);
 }
 
 MainWindow::~MainWindow()
