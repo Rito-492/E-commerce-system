@@ -1,0 +1,13 @@
+# ninja log v6
+19	1254	7557195516139967	server_autogen/timestamp	46eaebd8b6710f89
+19	1254	7557195516139967	server_autogen/mocs_compilation.cpp	46eaebd8b6710f89
+19	1254	7557195516139967	C:/Users/Rito-492/Documents/server/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/server_autogen/timestamp	46eaebd8b6710f89
+19	1254	7557195516139967	C:/Users/Rito-492/Documents/server/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/server_autogen/mocs_compilation.cpp	46eaebd8b6710f89
+1327	2843	7557195517974013	CMakeFiles/server.dir/threadhandle.cpp.obj	2156b7a1dbfa91f9
+1317	2861	7557195517868919	CMakeFiles/server.dir/tcpsocket.cpp.obj	3e994667e1ca2a4b
+1306	3050	7557195517758937	CMakeFiles/server.dir/tcpserver.cpp.obj	31541ef62fb62dbf
+1286	3131	7557195517558903	CMakeFiles/server.dir/main.cpp.obj	bf637c1e72eb4da6
+1259	3295	7557195517298891	CMakeFiles/server.dir/server_autogen/mocs_compilation.cpp.obj	e0a4c2fb3056e84d
+1296	3310	7557195517658908	CMakeFiles/server.dir/mainwindow.cpp.obj	40cd29d1408a871a
+1338	3439	7557195518084020	CMakeFiles/server.dir/databasehelper.cpp.obj	9a13c182803c5c5d
+3440	3918	7557195539100153	server.exe	e90e1c1208b01cdc
