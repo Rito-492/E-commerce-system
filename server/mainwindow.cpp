@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "tcpserver.h"
 #include "databasehelper.h"
+#include "tcpserver.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,7 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    DatabaseHelper dbhlp;
     dbhlp.connectToDatabase("localhost", 3306, "ecommerce", "root", "8284RT<>");
 
     // 创建一个 QVariantMap 来存储 WHERE 子句的条件
