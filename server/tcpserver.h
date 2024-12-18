@@ -19,15 +19,15 @@ public:
 
 signals:
     void addChatRoom(qintptr socketDescriptor);
-    void sglSendFromServer(QByteArray message, qintptr socketDescriptor);
-    void sglReceivedReomClient(QByteArray message, qintptr socketDescriptor);
-    void sendDisconnectedSignal(qintptr socketDiscriptor);
+    void sglSendFromServer(const QByteArray& message, const qintptr& socketDescriptor);
+    void sglReceivedReomClient(const QByteArray& message, const qintptr& socketDescriptor);
+    void sendDisconnectedSignal(const qintptr& socketDiscriptor);
 
 public slots:
 
-    void dataSendFromServer(QByteArray message, qintptr socketDescriptor);
-    void dataReceivedFromClient(QByteArray message, qintptr socketDescriptor);
-    void disconnectChoice(qintptr SocketDescriptor, const quint16 peerPort, QThread *currentThread);
+    void dataSendFromServer(const QByteArray& message, const qintptr& socketDescriptor);
+    void dataReceivedFromClient(const QByteArray& message, const qintptr& socketDescriptor);
+    void disconnectChoice(const qintptr& SocketDescriptor, const quint16& peerPort, QThread *currentThread);
 
 private:
 

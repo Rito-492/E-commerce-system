@@ -22,7 +22,7 @@ public slots:
 
 signals:
 
-    void sendAByteArray(QByteArray datagram);
+    void sendAByteArray(const QByteArray datagram);
 };
 
 #endif // TCPSOCKET_H

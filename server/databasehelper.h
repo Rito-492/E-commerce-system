@@ -40,40 +40,40 @@ public:
 
     QSqlDatabase& getDatabase();
 
-public slots:
+public:
 
     // Client表的增删改查
     QList<Client> getClientList();
 
     Client getClientByNameAndPwd(const QString& name, const QString& pwd);
 
-    bool insertClient(const Client& client);
+    bool insertClient(const Client client);
 
     bool deleteClientByNameAndPwd(const QString& name, const QString& pwd);
 
-    bool updateClient(const Client& client);
+    bool updateClient(const Client client);
 
-    QList<Client> getClientLikeList(const QString& mess);
+    //QList<Client> getClientLikeList(const QString& mess);
 
     // Order表的增删改查
     QList<Order> getOrderList();
 
-    QList<Order> getOrderListByInfo(const Order& order);
+    //QList<Order> getOrderListByInfo(const Order& order);
 
-    bool addOrder(const Order& order);
+    bool addOrder(const Order order);
 
-    QList<Order> getOrderLikeList(const QString& mess);
+    //QList<Order> getOrderLikeList(const QString& mess);
 
-    QList<Order> getOrderListHistory();
+    //QList<Order> getOrderListHistory();
 
-    bool updateHistory(const Order& order);
+    //bool updateHistory(const Order& order);
 
-    bool deleteShoppingCart(const Order& order);
+    //bool deleteShoppingCart(const Order& order);
 
     // 商品表的增删改查
     QList<Product>  getProductList(const int& choose);
 
-    QList<Product>  getProductListByInfo(const Product& product);
+    //QList<Product>  getProductListByInfo(const Product& product);
 
     bool addProduct(const Product& product);
 
@@ -81,9 +81,12 @@ public slots:
 
     bool updateProductByInfo(const Product& product);
 
-    QList<Product> getProductLikeList(const QString& mess);
+    Product getProductByName(const QString& productName);
+
+    //QList<Product> getProductLikeList(const QString& mess);
 
 private:
+
     static QString databaseDriver;
     QSqlDatabase db;
     QSqlQuery result;

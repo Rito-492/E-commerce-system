@@ -52,11 +52,11 @@ bool DatabaseHelper::insertRecord(const QString &tableName, const QVariantMap &r
     QString fields, values;
     QVariantList placeholders;
 
-    // 验证表名不为空
-    if (!isValidTableName(tableName)) {
-        qWarning() << "Invalid table name format or the tablename is empty!";
-        return false;
-    }
+    // // 验证表名不为空
+    // if (!isValidTableName(tableName)) {
+    //     qWarning() << "Invalid table name format or the tablename is empty!";
+    //     return false;
+    // }
 
     // 构建字段和占位符列表
     for (auto it = record.begin(); it != record.end(); ++it) {
@@ -68,7 +68,8 @@ bool DatabaseHelper::insertRecord(const QString &tableName, const QVariantMap &r
     }
 
     // 构建SQL插入语句
-    QString sql = QString("INSERT INTO %1 (%2) VALUES (%3)").arg(tableName, fields, values.replace("?", QStringList(placeholders.size(), "?").join(", ")));
+    // QString sql = QString("INSERT INTO %1 (%2) VALUES (%3)").arg(tableName, fields, values.replace("?", QStringList(placeholders.size(), "?").join(", ")));
+    QString sql = QString("INSERT INTO %1 (%2) VALUES (%3)").arg(tableName, fields, values);
     QSqlQuery sqlQuery(db);
     sqlQuery.prepare(sql);
 
@@ -87,11 +88,11 @@ bool DatabaseHelper::updateRecord(const QString &tableName, const QVariantMap &s
     QString setClause, whereClause;
     QList<QVariant> bindValues;
 
-    // 验证表名不为空
-    if (!isValidTableName(tableName)) {
-        qWarning() << "Invalid table name format or the tablename is empty!";
-        return false;
-    }
+    // // 验证表名不为空
+    // if (!isValidTableName(tableName)) {
+    //     qWarning() << "Invalid table name format or the tablename is empty!";
+    //     return false;
+    // }
 
     // 构建SET子句
     for (auto it = setFields.begin(); it != setFields.end(); ++it) {
@@ -127,11 +128,11 @@ bool DatabaseHelper::deleteRecord(const QString &tableName, const QVariantMap &w
     QString whereClause;
     QList<QVariant> bindValues;
 
-    // 验证表名不为空
-    if (!isValidTableName(tableName)) {
-        qWarning() << "Invalid table name format or the tablename is empty!";
-        return false;
-    }
+    // // 验证表名不为空
+    // if (!isValidTableName(tableName)) {
+    //     qWarning() << "Invalid table name format or the tablename is empty!";
+    //     return false;
+    // }
 
     // 构建WHERE子句
     for (auto it = whereFields.begin(); it != whereFields.end(); ++it) {
@@ -161,11 +162,11 @@ QList<QVariantMap> DatabaseHelper::selectRecords(const QString &tableName, const
     QString whereClause;
     QList<QVariant> bindValues;
 
-    // 验证表名不为空
-    if (!isValidTableName(tableName)) {
-        qWarning() << "Invalid table name format or the tablename is empty!";
-        return result;
-    }
+    // // 验证表名不为空
+    // if (!isValidTableName(tableName)) {
+    //     qWarning() << "Invalid table name format or the tablename is empty!";
+    //     return result;
+    // }
 
     // 构建WHERE子句（可选）
     if (!whereFields.isEmpty()) {
@@ -211,11 +212,11 @@ QList<QVariantMap> DatabaseHelper::selectRecords(const QString &tableName, const
 
 bool DatabaseHelper::isValidTableName(const QString &tableName)
 {
-    // 验证表名不为空
-    if (tableName.isEmpty()) {
-        qWarning() << "Table name cannot be empty";
-        return false;
-    }
+    // // 验证表名不为空
+    // if (tableName.isEmpty()) {
+    //     qWarning() << "Table name cannot be empty";
+    //     return false;
+    // }
 
     // 验证表名防止SQL注入（只允许字母、数字和下划线）
     QRegularExpression validTableName("^[a-zA-Z0-9_]+$");
@@ -232,11 +233,11 @@ QList<QVariantMap> DatabaseHelper::getAllRecords(const QString &tableName) {
 
     allRecords.clear();
 
-    // 验证表名不为空
-    if (!isValidTableName(tableName)) {
-        qWarning() << "Invalid table name format or the tablename is empty!";
-        return allRecords;
-    }
+    // // 验证表名不为空
+    // if (!isValidTableName(tableName)) {
+    //     qWarning() << "Invalid table name format or the tablename is empty!";
+    //     return allRecords;
+    // }
 
     // 构建SQL选择语句
     QString sql = QString("SELECT * FROM %1").arg(tableName);
@@ -297,7 +298,7 @@ Client DatabaseHelper::getClientByNameAndPwd(const QString& name, const QString&
     if (tmpList.size() > 1) {
         qDebug() << "There is a wrong !";
     } else {
-        for (const QVariantMap &tmp : allRecords) {
+        for (const QVariantMap &tmp : tmpList) {
             row.setClientName(tmp.value("client_name").toString());
             row.setClientId(tmp.value("client_id").toInt());
             row.setClientPhone(tmp.value("client_phone").toString());
@@ -311,15 +312,13 @@ Client DatabaseHelper::getClientByNameAndPwd(const QString& name, const QString&
     return row;
 }
 
-bool DatabaseHelper::insertClient(const Client& client)
+bool DatabaseHelper::insertClient(const Client client)
 {
     QVariantMap record;
     record["client_name"] = client.getClientName();
-    record["client_id"] = client.getClientId();
-    record["client_phone"] = client.getClientPhone();
-    record["client_sign_time"] = client.getClientSignTime();
+    record["client_sign_time"] = QDateTime::currentDateTime().toString("yyyy-MM-dd");
     record["client_pwd"] = client.getClientPwd();
-    record["client_bought"] = client.getClientBought();
+    record["client_bought"] = 0;
     record["client_image"] = client.getClientImage();
 
     return insertRecord("`client`", record);
@@ -335,7 +334,7 @@ bool DatabaseHelper::deleteClientByNameAndPwd(const QString& name, const QString
     return deleteRecord("`client`", whereFields);
 }
 
-bool DatabaseHelper::updateClient(const Client& client)
+bool DatabaseHelper::updateClient(const Client client)
 {
     QVariantMap whereFields;
     whereFields["client_id"] = client.getClientId();
@@ -430,7 +429,7 @@ QList<Order> DatabaseHelper::getOrderList()
 //     return OrderList;
 // }
 
-bool DatabaseHelper::addOrder(const Order& order)
+bool DatabaseHelper::addOrder(const Order order)
 {
     QVariantMap record;
     record["order_id"] = order.getOrderId();
@@ -553,34 +552,34 @@ QList<Product> DatabaseHelper::getProductList(const int& choose)
     return ProductList;
 }
 
-QList<Product> DatabaseHelper::getProductListByInfo(const Product& product)
-{
-    ProductList.clear();
-    struct soap select_soap;
-    soap_init(&select_soap);
-    soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
-    lkf2__getProductListByInfo res;
-    lkf2__getProductListByInfoResponse rep;
-    res.arg0  = transObjects::retransProduct(product);
-    int result = soap_call___lkf1__getProductListByInfo(&select_soap,NULL,NULL,&res,rep);
-    //    qDebug()<<result;
-    if(!result)
-    {
-        std::vector<lkf2__product*> productList = rep.return_;
-        //        qDebug()<<productList.size();
-        for(int i=0;i<(int)productList.size();i++)
-        {
-            Product* product = transObjects::transProduct(productList[i]);
-            ProductList.append(product);
-        }
-        qDebug() << ProductList.size();
-        for(int i=0;i<ProductList.size();i++)
-        {
-            //            qDebug() << ProductList[i]->getProductName();
-        }
-    }
-    return ProductList;
-}
+// QList<Product> DatabaseHelper::getProductListByInfo(const Product& product)
+// {
+//     ProductList.clear();
+//     struct soap select_soap;
+//     soap_init(&select_soap);
+//     soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
+//     lkf2__getProductListByInfo res;
+//     lkf2__getProductListByInfoResponse rep;
+//     res.arg0  = transObjects::retransProduct(product);
+//     int result = soap_call___lkf1__getProductListByInfo(&select_soap,NULL,NULL,&res,rep);
+//     //    qDebug()<<result;
+//     if(!result)
+//     {
+//         std::vector<lkf2__product*> productList = rep.return_;
+//         //        qDebug()<<productList.size();
+//         for(int i=0;i<(int)productList.size();i++)
+//         {
+//             Product* product = transObjects::transProduct(productList[i]);
+//             ProductList.append(product);
+//         }
+//         qDebug() << ProductList.size();
+//         for(int i=0;i<ProductList.size();i++)
+//         {
+//             //            qDebug() << ProductList[i]->getProductName();
+//         }
+//     }
+//     return ProductList;
+// }
 
 bool DatabaseHelper::addProduct(const Product& product)
 {
@@ -596,32 +595,59 @@ bool DatabaseHelper::addProduct(const Product& product)
     return insertRecord("`product`", record);
 }
 
+Product DatabaseHelper::getProductByName(const QString& productName)
+{
+
+    // 创建一个 QVariantMap 来存储 WHERE 子句的条件
+    QVariantMap whereFields;
+    whereFields["product_name"] = productName;
+
+    // 调用 selectRecords 函数并获取结果
+    QList<QVariantMap> tmpList = selectRecords("product", whereFields);
+
+    Product row;
+
+    if (tmpList.size() > 1) {
+        qDebug() << "There is a wrong !";
+    } else {
+        for (const QVariantMap &tmp : tmpList) {
+            row.setProductId(tmp.value("product_id").toInt());
+            row.setProductName(tmp.value("product_name").toString());
+            row.setProductPrice(tmp.value("product_price").toFloat());
+            row.setProductNum(tmp.value("product_num").toInt());
+            row.setProductBuyNum(tmp.value("product_buy_num").toInt());
+            row.setProductImage(tmp.value("product_image").toString());
+            row.setProductDiscount(tmp.value("product_discount").toFloat());
+        }
+    }
+
+    return row;
+}
+
 bool DatabaseHelper::deleteProductByInfo(const Product& product)
 {
-    struct soap delete_soap;
-    soap_init(&delete_soap);
-    soap_set_mode(&delete_soap,SOAP_C_UTFSTRING);
+    // 创建一个 QVariantMap 来存储 WHERE 子句的条件
+    QVariantMap whereFields;
+    whereFields["product_id"] = product.getProductId();
 
-    lkf2__deleteProductByInfo res;
-    lkf2__deleteProductByInfoResponse rep;
-    res.arg0 = transObjects::retransProduct(product);
-    int result = soap_call___lkf1__deleteProductByInfo(&delete_soap,NULL,NULL,&res,rep);
-    if(!result)
-        qDebug()<<"删除成功";
+    return deleteRecord("`product`", whereFields);
 }
 
 bool DatabaseHelper::updateProductByInfo(const Product& product)
 {
-    struct soap update_soap;
-    soap_init(&update_soap);
-    soap_set_mode(&update_soap,SOAP_C_UTFSTRING);
-    lkf2__updateProductByInfo res;
-    lkf2__updateProductByInfoResponse rep;
-    lkf2__product * javaproduct = transObjects::retransProduct(product);
-    res.arg0 = javaproduct;
-    int  result = soap_call___lkf1__updateProductByInfo(&update_soap,NULL,NULL,&res,rep);
-    //    qDebug()<<result;
-    if(!result)qDebug()<<"更新成功2222";
+    QVariantMap whereFields;
+    whereFields["product_id"] = product.getProductId();
+
+    QVariantMap record;
+    record["product_id"] = product.getProductId();
+    record["product_name"] = product.getProductName();
+    record["product_price"] = product.getProductPrice();
+    record["product_num"] = product.getProductNum();
+    record["product_buy_num"] = product.getProductBuyNum();
+    record["product_image"] = product.getProductImage();
+    record["product_discount"] = product.getProductDiscount();
+
+    return updateRecord("`product`", record, whereFields);
 }
 
 // QList<Product> DatabaseHelper::getProductLikeList(const QString& mess)

@@ -8,7 +8,12 @@
 #include "tcpserver.h"
 
 #include <QDebug>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonValue>
 #include <QMainWindow>
+#include <QMutex>
 #include <QSql>
 #include <QSqlDatabase>
 #include <QSqlDriver>
@@ -25,6 +30,7 @@
 #define clientUpdate 1000008
 #define login 1000009
 #define signin 1000010
+#define updateProfile 1000011
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -40,16 +46,19 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    QList<Client*>ClientList;
-    QList<Product*>ProductList;
-    QList<Order*>OrderList;
+    void setSlots();
+
+public slots:
+
+    void dealMessage(QByteArray message,qintptr socketDiscriptor);
 
 private:
 
     Ui::MainWindow *ui;
 
-    DatabaseHelper dbhlp;
+    DatabaseHelper *dbhlp;
     static qintptr AsocketDiscriptor;
+    QMutex mutex;
     QList<qintptr>socketDiscriptorList;
     TcpServer *server;
 

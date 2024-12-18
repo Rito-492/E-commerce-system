@@ -1,8 +1,13 @@
 <RCC>
-    <qresource prefix="/prefix1">
+    <qresource prefix="/TitleBar">
         <file>icons/close.png</file>
         <file>icons/maximize.png</file>
         <file>icons/minimize.png</file>
         <file>icons/theme.png</file>
+        <file>icons/searchButton.png</file>
+        <file>icons/shoppingCart.png</file>
+        <file>icons/shoppingRecord.png</file>
+        <file>icons/ICON.png</file>
+        <file>icons/login.png</file>
     </qresource>
 </RCC>

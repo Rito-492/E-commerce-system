@@ -1,0 +1,18 @@
+# ninja log v6
+11	865	7562113141956562	untitled_autogen/timestamp	595bac4eb0b345ac
+11	865	7562113141956562	untitled_autogen/mocs_compilation.cpp	595bac4eb0b345ac
+11	865	7562113141956562	C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/untitled_autogen/timestamp	595bac4eb0b345ac
+11	865	7562113141956562	C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/untitled_autogen/mocs_compilation.cpp	595bac4eb0b345ac
+901	2225	7562113143206375	CMakeFiles/untitled.dir/bubblemessagewidget.cpp.obj	290ec2340d4ea6fb
+871	2398	7562113142906571	CMakeFiles/untitled.dir/untitled_autogen/mocs_compilation.cpp.obj	6158c4926e204419
+883	2401	7562113143028127	CMakeFiles/untitled.dir/main.cpp.obj	764285fb40fedd28
+892	2412	7562113143111070	CMakeFiles/untitled.dir/mainwindow.cpp.obj	3da28b4fe38dbe34
+2412	2611	7562113158312533	untitled.exe	58e5d03311ace7bc
+11	598	7562113802265363	untitled_autogen/timestamp	595bac4eb0b345ac
+11	598	7562113802265363	untitled_autogen/mocs_compilation.cpp	595bac4eb0b345ac
+11	598	7562113802265363	C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/untitled_autogen/timestamp	595bac4eb0b345ac
+11	598	7562113802265363	C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/untitled_autogen/mocs_compilation.cpp	595bac4eb0b345ac
+610	1992	7562113803215832	CMakeFiles/untitled.dir/main.cpp.obj	764285fb40fedd28
+619	2021	7562113803306786	CMakeFiles/untitled.dir/mainwindow.cpp.obj	3da28b4fe38dbe34
+601	2022	7562113803125695	CMakeFiles/untitled.dir/untitled_autogen/mocs_compilation.cpp.obj	6158c4926e204419
+2022	2205	7562113817338873	untitled.exe	58e5d03311ace7bc

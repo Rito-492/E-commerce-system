@@ -1,6 +1,6 @@
 #include "tcpsocket.h"
 
-int num =0;
+int num = 0;
 
 TcpSocket::TcpSocket(QTcpSocket *parent) : QTcpSocket(parent)
 {
@@ -11,7 +11,7 @@ TcpSocket::TcpSocket(QTcpSocket *parent) : QTcpSocket(parent)
     connect(this, &TcpSocket::disconnected, [=]() {
 
         qDebug() << "My socket : disconnect" ;
-        qDebug() << "1.socketDescriptor is " << socketDescriptor;
+        qDebug() << "1.socketDescriptor is " << socketDescriptor << Qt::endl << Qt::endl;
 
         //发送断开连接的用户信息
         emit userDisconnected(socketDescriptor, this->peerPort(), QThread::currentThread());
@@ -19,7 +19,7 @@ TcpSocket::TcpSocket(QTcpSocket *parent) : QTcpSocket(parent)
     });
 }
 
-void TcpSocket::dataSend(QByteArray message,qintptr socketDescriptor)
+void TcpSocket::dataSend(const QByteArray& message, const qintptr& socketDescriptor)
 {
     qDebug() << "My socket:" << socketDescriptor << num++;
     qDebug() << message;
@@ -34,12 +34,11 @@ void TcpSocket::dataSend(QByteArray message,qintptr socketDescriptor)
 void TcpSocket::dataReceived()
 {
 
-    qDebug() << "wait";
+    // qDebug() << "wait";
     while(bytesAvailable() > 0)
     {
-        QByteArray datagram;
         datagram = readAll();
-        emit sendByteArray(datagram,this->socketDescriptor);
+        emit sendByteArray(datagram, this->socketDescriptor);
     }
 
 }

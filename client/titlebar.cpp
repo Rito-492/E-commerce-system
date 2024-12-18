@@ -4,11 +4,12 @@
 
 TitleBar::TitleBar(QWidget *parent) : QWidget(parent)
 {
+    // this->setStyleSheet("background-color: rgba(0, 0, 0, 0);");
     //创建按钮插入图片
-    themeButton = new QPushButton(QIcon(":/prefix1/icons/theme.png"), "", this);
-    minimizeButton = new QPushButton(QIcon(":/prefix1/icons/minimize.png"), "", this);
-    maximizeButton = new QPushButton(QIcon(":/prefix1/icons/maximize.png"), "", this);
-    closeButton = new QPushButton(QIcon(":/prefix1/icons/close.png"), "", this);
+    themeButton = new QPushButton(QIcon(":/TitleBar/icons/theme.png"), "", this);
+    minimizeButton = new QPushButton(QIcon(":/TitleBar/icons/minimize.png"), "", this);
+    maximizeButton = new QPushButton(QIcon(":/TitleBar/icons/maximize.png"), "", this);
+    closeButton = new QPushButton(QIcon(":/TitleBar/icons/close.png"), "", this);
 
     //设置按钮无边框并设置大小
     themeButton->setStyleSheet("border: none;"); themeButton->setFixedSize(30, 30);

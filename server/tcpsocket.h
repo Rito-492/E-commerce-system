@@ -16,15 +16,17 @@ public:
     void dataReceived();
     qintptr socketDescriptor;
 
+    QByteArray datagram;
+
 signals:
 
     //NOTE:断开连接的用户信息，此信号必须发出！线程管理类根据信号计数的
     void userDisconnected(qintptr, const quint16, QThread *);
-    void sendByteArray(QByteArray, qintptr);
+    void sendByteArray(const QByteArray&, const qintptr&);
 
 public slots:
 
-    void dataSend(QByteArray, qintptr);
+    void dataSend(const QByteArray&, const qintptr&);
 
 };
 

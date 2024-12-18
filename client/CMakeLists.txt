@@ -27,6 +27,13 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         titlebar.h titlebar.cpp
 
         resource.qrc
+        client.h client.cpp
+        order.h order.cpp
+        product.h product.cpp
+        login.h login.cpp login.ui
+
+
+
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET client APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

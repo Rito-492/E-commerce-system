@@ -7,7 +7,7 @@ TcpSocket::TcpSocket(QObject *parent) : QTcpSocket(parent)
         receivedMessage();
     });
     connect(this, &QTcpSocket::disconnected, [=]() {
-        QMessageBox::information(nullptr, "Title", "disconnected");
+        // QMessageBox::information(nullptr, "Title", "disconnected");
         this->deleteLater();
     });
 }
@@ -18,20 +18,18 @@ void TcpSocket::sendMessageToServer(QByteArray message)
     if(message.length() > 0)
     {
         write(message);
-        qDebug() << "发送成功";
-        QMessageBox::information(nullptr, "Title", "发送成功");
+        // QMessageBox::information(nullptr, "Title", "发送成功");
     }
 }
 
 void TcpSocket::receivedMessage()
 {
-
-    qDebug() << "Myreceive";
+    // qDebug() << ;
     QByteArray datagram;
     if(bytesAvailable() > 0)
     {
         datagram.append(this->readAll());
     }
-    qDebug() << datagram;
+    QMessageBox::information(nullptr, "ReceivedMessage", datagram);
     emit sendAByteArray(datagram);
 }
