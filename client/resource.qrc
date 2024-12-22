@@ -9,5 +9,7 @@
         <file>icons/shoppingRecord.png</file>
         <file>icons/ICON.png</file>
         <file>icons/login.png</file>
+        <file>icons/refresh.png</file>
+        <file>icons/return.png</file>
     </qresource>
 </RCC>

@@ -8,6 +8,8 @@ Login::Login(QWidget *parent)
     , ui(new Ui::Login)
 {
     ui->setupUi(this);
+
+    connect(ui->usePwdLineEdit, &QLineEdit::returnPressed, this, &Login::on_loginButton_clicked);
 }
 
 Login::~Login()

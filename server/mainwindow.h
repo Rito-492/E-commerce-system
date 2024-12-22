@@ -13,6 +13,7 @@
 #include <QJsonObject>
 #include <QJsonValue>
 #include <QMainWindow>
+#include <QMessageBox>
 #include <QMutex>
 #include <QSql>
 #include <QSqlDatabase>
@@ -26,11 +27,12 @@
 #define searchProduct 1000004
 #define addOrderList 1000005
 #define chatRoom 1000006
-#define searchProductType 1000007
+#define refreshProduct 1000007
 #define clientUpdate 1000008
 #define login 1000009
 #define signin 1000010
 #define updateProfile 1000011
+#define getOrders 1000012
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -46,7 +48,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void setSlots();
+    void setConnections();
 
 public slots:
 

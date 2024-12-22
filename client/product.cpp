@@ -42,6 +42,37 @@ Product Product::fromJsonObject(const QJsonObject& json) {
     return product;
 }
 
+QJsonObject Product::toJsonObjectArray(const QList<Product>& products) {
+
+    QJsonObject jsonObject;
+    QJsonArray jsonArray;
+
+    for (const Product& product : products) {
+        jsonArray.append(Product::toJsonObject(product));
+    }
+
+    jsonObject["products"] = jsonArray;
+    return jsonObject;
+
+}
+
+QList<Product> Product::fromJsonObjectArray(const QJsonObject& jsonObj) {
+    QList<Product> products;
+    QJsonArray jsonArray = jsonObj.value("products").toArray();
+
+    for (const QJsonValue& value : jsonArray) {
+        if (value.isObject()) { // 检查值是否是一个对象
+            QJsonObject json = value.toObject(); // 现在可以安全地转换为 QJsonObject
+            products.append(Product::fromJsonObject(json));
+        } else {
+            // 处理错误或者忽略非对象类型的值
+            qWarning() << "Expected a QJsonObject in the JSON array, but got something else.";
+        }
+    }
+
+    return products;
+}
+
 float Product::getProductDiscount() const
 {
     return productDiscount;

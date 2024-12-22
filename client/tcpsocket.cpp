@@ -18,18 +18,19 @@ void TcpSocket::sendMessageToServer(QByteArray message)
     if(message.length() > 0)
     {
         write(message);
-        // QMessageBox::information(nullptr, "Title", "发送成功");
+        qDebug() << message << Qt::endl << Qt::endl;
+        //QMessageBox::warning(nullptr, "Message", message);
     }
 }
 
 void TcpSocket::receivedMessage()
 {
-    // qDebug() << ;
     QByteArray datagram;
     if(bytesAvailable() > 0)
     {
         datagram.append(this->readAll());
     }
-    QMessageBox::information(nullptr, "ReceivedMessage", datagram);
+    qDebug() << "ReceivedMessage:" << datagram;
+    // QMessageBox::information(nullptr, "ReceivedMessage", datagram);
     emit sendAByteArray(datagram);
 }

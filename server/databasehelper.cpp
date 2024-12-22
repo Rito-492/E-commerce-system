@@ -5,22 +5,11 @@ QString DatabaseHelper::databaseDriver = "QODBC";
 DatabaseHelper::DatabaseHelper(QObject *parent)
     : QObject(parent), db(QSqlDatabase::addDatabase(databaseDriver))
 {
-}
-
-DatabaseHelper::~DatabaseHelper()
-{
-    if (db.isOpen())
-        db.close();
-}
-
-bool DatabaseHelper::connectToDatabase(const QString &hostName, const int &port, const QString &databaseName,
-                                       const QString &userName, const QString &password)
-{
-    db.setHostName(hostName);
-    db.setPort(port);
-    db.setDatabaseName(databaseName);
-    db.setUserName(userName);
-    db.setPassword(password);
+    db.setHostName("localhost");
+    db.setPort(3306);
+    db.setDatabaseName("ecommerce");
+    db.setUserName("root");
+    db.setPassword("8284RT<>");
 
     if (!db.open()) {
         // qDebug() << "Error: Unable to establish a database connection.";
@@ -28,11 +17,18 @@ bool DatabaseHelper::connectToDatabase(const QString &hostName, const int &port,
         // 可以选择在这里显示一个错误消息框给用户
         QMessageBox::critical(nullptr, QObject::tr("Database Connection Error"),
                               db.lastError().text(), QMessageBox::Cancel);
-        return false;
+    } else {
+        qDebug() << "Database connection established.";
     }
 
-    qDebug() << "Database connection established.";
-    return true;
+    getOrderList();
+
+}
+
+DatabaseHelper::~DatabaseHelper()
+{
+    if (db.isOpen())
+        db.close();
 }
 
 bool DatabaseHelper::executeQuery(const QString &query)
@@ -400,34 +396,18 @@ QList<Order> DatabaseHelper::getOrderList()
     return OrderList;
 }
 
-// QList<Order> DatabaseHelper::getOrderListByInfo(const Order& order)
-// {
-//     OrderList.clear();
-//     struct soap select_soap;
-//     soap_init(&select_soap);
-//     soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
-//     lkf2__getOrderListByInfo res;
-//     lkf2__getOrderListByInfoResponse rep;
-//     res.arg0  = transObjects::retransOrder(order);
-//     int result = soap_call___lkf1__getOrderListByInfo(&select_soap,NULL,NULL,&res,rep);
-//     //    qDebug()<<result;
-//     if(!result)
-//     {
-//         std::vector<lkf2__order*> orderList = rep.return_;
-//         //        qDebug()<<orderList.size();
-//         for(int i=0;i<(int)orderList.size();i++)
-//         {
-//             Order* order = transObjects::transOrder(orderList[i]);
-//             OrderList.append(order);
-//         }
-//         qDebug() << OrderList.size();
-//         for(int i=0;i<OrderList.size();i++)
-//         {
-//             //            qDebug() << OrderList[i]->getOrderProductName();
-//         }
-//     }
-//     return OrderList;
-// }
+QList<Order> DatabaseHelper::getOrderListByInfo(const Client client)
+{
+    getOrderList();
+    QList<Order> ans;
+
+    for (const Order &tmp : OrderList) {
+        if (tmp.getOrderClientId() == client.getClientId()) {
+            ans.append(tmp);
+        }
+    }
+    return ans;
+}
 
 bool DatabaseHelper::addOrder(const Order order)
 {
@@ -552,6 +532,45 @@ QList<Product> DatabaseHelper::getProductList(const int& choose)
     return ProductList;
 }
 
+QList<Product> DatabaseHelper::searchProductByName(const QString toSearchProductName) {
+
+    QString sql;
+    QSqlQuery sqlQuery(db);
+    ProductList.clear();
+
+    // 构建SQL选择语句，使用LIKE进行模糊搜索
+    sql = QString("SELECT * FROM product WHERE product_name LIKE ?");
+    sqlQuery.prepare(sql);
+    sqlQuery.addBindValue(QVariant(QString("%%1%%").arg(toSearchProductName)));
+
+    // 执行选择操作并处理结果
+    if (sqlQuery.exec()) {
+        while (sqlQuery.next()) {
+            QVariantMap row;
+            int columnCount = sqlQuery.record().count();
+            for (int i = 0; i < columnCount; ++i) {
+                row[sqlQuery.record().fieldName(i)] = sqlQuery.value(i);
+            }
+
+            Product tmp;
+            tmp.setProductId(row["product_id"].toInt());
+            tmp.setProductName(row["product_name"].toString());
+            tmp.setProductPrice(row["product_price"].toInt());
+            tmp.setProductNum(row["product_num"].toInt());
+            tmp.setProductBuyNum(row["product_buy_num"].toInt());
+            tmp.setProductImage(row["product_image"].toString());
+            tmp.setProductDiscount(row["product_discount"].toDouble());
+
+            ProductList.append(tmp);
+        }
+    } else {
+        qWarning() << "Database error:" << sqlQuery.lastError().text()
+        << "\nQuery:" << sqlQuery.lastQuery();
+    }
+
+    return ProductList;
+}
+
 // QList<Product> DatabaseHelper::getProductListByInfo(const Product& product)
 // {
 //     ProductList.clear();
@@ -595,12 +614,12 @@ bool DatabaseHelper::addProduct(const Product& product)
     return insertRecord("`product`", record);
 }
 
-Product DatabaseHelper::getProductByName(const QString& productName)
+Product DatabaseHelper::getProductById(const int& productId)
 {
 
     // 创建一个 QVariantMap 来存储 WHERE 子句的条件
     QVariantMap whereFields;
-    whereFields["product_name"] = productName;
+    whereFields["product_id"] = productId;
 
     // 调用 selectRecords 函数并获取结果
     QList<QVariantMap> tmpList = selectRecords("product", whereFields);

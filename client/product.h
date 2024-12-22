@@ -2,6 +2,7 @@
 #define PRODUCT_H
 
 #include <QDateTime>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
 #include <QVariantMap>
@@ -15,6 +16,10 @@ public:
     static QJsonObject toJsonObject(const Product& product);
     // 静态成员函数：从QJsonObject转换为Product对象
     static Product fromJsonObject(const QJsonObject& json);
+
+    static QJsonObject toJsonObjectArray(const QList<Product>& orders);
+
+    static QList<Product> fromJsonObjectArray(const QJsonObject& jsonObj);
 
     float getProductDiscount() const;
     void setProductDiscount(float value);

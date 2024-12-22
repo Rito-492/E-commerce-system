@@ -58,7 +58,7 @@ public:
     // Order表的增删改查
     QList<Order> getOrderList();
 
-    //QList<Order> getOrderListByInfo(const Order& order);
+    QList<Order> getOrderListByInfo(const Client client);
 
     bool addOrder(const Order order);
 
@@ -81,9 +81,9 @@ public:
 
     bool updateProductByInfo(const Product& product);
 
-    Product getProductByName(const QString& productName);
+    Product getProductById(const int& productId);
 
-    //QList<Product> getProductLikeList(const QString& mess);
+    QList<Product> searchProductByName(const QString toSearchProductName);
 
 private:
 

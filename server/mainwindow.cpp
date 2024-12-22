@@ -11,10 +11,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     server = new TcpServer(this, 8284);
 
-    this->setSlots();
+    this->setConnections();
 
     dbhlp = new DatabaseHelper;
-    dbhlp->connectToDatabase("localhost", 3306, "ecommerce", "root", "8284RT<>");
 
 }
 
@@ -25,7 +24,7 @@ MainWindow::~MainWindow()
     delete dbhlp;
 }
 
-void MainWindow::setSlots()
+void MainWindow::setConnections()
 {
     connect(server, &TcpServer::sglReceivedReomClient, this, [this](const QByteArray& message, const qintptr& socketDiscriptor) {
             this->dealMessage(message, socketDiscriptor);
@@ -51,20 +50,9 @@ void MainWindow::dealMessage(QByteArray message, qintptr socketDescriptor)
     QString signal = jsonObj["signal"].toString();
 
     if (signal.isEmpty()) {
+
         qDebug() << "Parsing failed";
         // 发射通知或执行其他错误处理
-        return;
-
-    } else if (signal == QString::number(searchProduct)) {
-        /*
-            规定：由产品名称查询
-        */
-        QString productName = jsonObj["product_name"].toString();
-        Product tmp(dbhlp->getProductByName(productName));
-        QJsonObject responseObj = Product::toJsonObject(tmp);
-        responseObj["signal"] = signal;
-        QByteArray responseMessage = QJsonDocument(responseObj).toJson();
-        emit server->dataSendFromServer(responseMessage, socketDescriptor);
         return;
 
     } else if (signal == QString::number(login)) {
@@ -112,6 +100,51 @@ void MainWindow::dealMessage(QByteArray message, qintptr socketDescriptor)
         QJsonObject responseObj = Client::toJsonObject(tmp);
         responseObj["signal"] = signal;
         responseObj["isValid"] = flag;
+
+        QByteArray responseMessage = QJsonDocument(responseObj).toJson();
+        emit server->dataSendFromServer(responseMessage, socketDescriptor);
+        return ;
+
+    } else if (signal == QString::number(chatRoom)) {
+        QJsonObject responseObj;
+        responseObj["signal"] = signal;
+        responseObj["message"] = "Hello World!";
+
+        QByteArray responseMessage = QJsonDocument(responseObj).toJson();
+        emit server->dataSendFromServer(responseMessage, socketDescriptor);
+        return ;
+
+    } else if (signal == QString::number(getOrders)) {
+
+        Client tmp(Client::fromJsonObject(jsonObj));
+        QList<Order> orders = dbhlp->getOrderListByInfo(tmp);
+
+        QJsonObject responseObj(Order::toJsonObjectArray(orders));
+        responseObj["signal"] = signal;
+        responseObj["order_client_id"] = tmp.getClientId();
+
+        QByteArray responseMessage = QJsonDocument(responseObj).toJson();
+        emit server->dataSendFromServer(responseMessage, socketDescriptor);
+        return ;
+
+    } else if (signal == QString::number(searchProduct)) {
+
+        QString toSearchProductName = jsonObj["toSearchProductName"].toString();
+        QList<Product> result = dbhlp->searchProductByName(toSearchProductName);
+
+        QJsonObject responseObj(Product::toJsonObjectArray(result));
+        responseObj["signal"] = signal;
+
+        QByteArray responseMessage = QJsonDocument(responseObj).toJson();
+        emit server->dataSendFromServer(responseMessage, socketDescriptor);
+        return ;
+
+    } else if (signal == QString::number(refreshProduct)) {
+
+        Product product(dbhlp->getProductById(jsonObj["product_id"].toInt()));
+
+        QJsonObject responseObj(Product::toJsonObject(product));
+        responseObj["signal"] = signal;
 
         QByteArray responseMessage = QJsonDocument(responseObj).toJson();
         emit server->dataSendFromServer(responseMessage, socketDescriptor);

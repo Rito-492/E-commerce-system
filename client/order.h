@@ -2,6 +2,7 @@
 #define ORDER_H
 
 #include <QDateTime>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
 #include <QVariantMap>
@@ -15,6 +16,10 @@ public:
     static QJsonObject toJsonObject(const Order& order);
     // 静态成员函数：从QJsonObject转换为Order对象
     static Order fromJsonObject(const QJsonObject& json);
+
+    static QJsonObject toJsonObjectArray(const QList<Order>& orders);
+
+    static QList<Order> fromJsonObjectArray(const QJsonObject& jsonObj);
 
     int getOrderHide() const;
     void setOrderHide(int value);

@@ -52,6 +52,39 @@ Order Order::fromJsonObject(const QJsonObject& json) {
     return order;
 }
 
+QJsonObject Order::toJsonObjectArray(const QList<Order>& orders) {
+
+    QJsonObject jsonObject;
+    QJsonArray jsonArray;
+
+    for (const Order& order : orders) {
+        jsonArray.append(Order::toJsonObject(order));
+    }
+
+    jsonObject["orders"] = jsonArray;
+    return jsonObject;
+
+}
+
+QList<Order> Order::fromJsonObjectArray(const QJsonObject& jsonObj) {
+
+    QList<Order> orders;
+    QJsonArray jsonArray = jsonObj.value("orders").toArray();
+
+    for (const QJsonValue& value : jsonArray) {
+        if (value.isObject()) { // 检查值是否是一个对象
+            QJsonObject json = value.toObject(); // 现在可以安全地转换为 QJsonObject
+            orders.append(Order::fromJsonObject(json));
+        } else {
+            // 处理错误或者忽略非对象类型的值
+            qWarning() << "Expected a QJsonObject in the JSON array, but got something else.";
+        }
+    }
+
+    return orders;
+}
+
+
 int Order::getOrderHide() const
 {
     return orderHide;

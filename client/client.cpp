@@ -1,6 +1,10 @@
 #include "client.h"
 
-Client::Client(): clientId(0), clientBought(0), clientImage(defultAvatar)
+Client::Client()
+    : clientId(0)
+    , clientName("用户")
+    , clientBought(0)
+    , clientImage(defultAvatar)
 {
 
 }
