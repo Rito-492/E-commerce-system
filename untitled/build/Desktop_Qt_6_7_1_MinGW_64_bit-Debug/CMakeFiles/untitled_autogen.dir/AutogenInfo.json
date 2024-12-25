@@ -288,7 +288,8 @@
 		"C:/Qt/6.7.1/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets.cmake",
 		"C:/Qt/6.7.1/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginTargets-relwithdebinfo.cmake",
 		"C:/Qt/6.7.1/mingw_64/lib/cmake/Qt6Widgets/Qt6QModernWindowsStylePluginAdditionalTargetInfo.cmake",
-		"C:/Qt/Tools/CMake_64/share/cmake-3.29/Modules/GNUInstallDirs.cmake"
+		"C:/Qt/Tools/CMake_64/share/cmake-3.29/Modules/GNUInstallDirs.cmake",
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images.qrc"
 	],
 	"CMAKE_SOURCE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled",
 	"CROSS_CONFIG" : false,
@@ -300,6 +301,12 @@
 			"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/bubblemessagewidget.h",
 			"MU",
 			"EWIEGA46WW/moc_bubblemessagewidget.cpp",
+			null
+		],
+		[
+			"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/carousel.h",
+			"MU",
+			"EWIEGA46WW/moc_carousel.cpp",
 			null
 		],
 		[
@@ -382,6 +389,11 @@
 	[
 		[
 			"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/bubblemessagewidget.cpp",
+			"MU",
+			null
+		],
+		[
+			"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/carousel.cpp",
 			"MU",
 			null
 		],

@@ -24,6 +24,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         bubblemessagewidget.h bubblemessagewidget.cpp
+        images.qrc
+        carousel.h carousel.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET untitled APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR

@@ -7,18 +7,39 @@
 #include "product.h"
 #include "tcpserver.h"
 
+#include <QApplication>
 #include <QDebug>
+#include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QListView>
+#include <QListWidget>
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QMouseEvent>
 #include <QMutex>
+#include <QPainter>
+#include <qpainter.h>
+#include <QPainterPath>
+#include <QPoint>
+#include <QRegion>
+#include <QScrollBar>
 #include <QSql>
 #include <QSqlDatabase>
 #include <QSqlDriver>
 #include <QSqlError>
+#include <QStandardItem>
+#include <QStandardItemModel>
+#include <QTabWidget>
+#include <QTabBar>
+#include <QTextEdit>
+#include <QThread>
+#include <QTimer>
+#include <QVBoxLayout>
+#include <QWidget>
+#include <stack>
 
 // 定义双方接收消息的信号
 #define initAll 1000001
@@ -33,6 +54,18 @@
 #define signin 1000010
 #define updateProfile 1000011
 #define getOrders 1000012
+#define getAllProducts 1000013
+
+using namespace std;
+
+const QString defultImage = "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/addPic.png";
+
+const int HomeTab = 0;
+const int ResultTab = 1;
+const int ShoppingRecordsTab = 2;
+const int SupportTab = 3;
+const int CommodityTab = 4;
+const int ChatTabs = 5;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -48,21 +81,88 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void setConnections();
+protected:
+
+    void paintEvent(QPaintEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event) override;
 
 public slots:
 
     void dealMessage(QByteArray message,qintptr socketDiscriptor);
 
+private slots:
+    void on_minimizeButton_clicked();
+
+    void on_closeButton_clicked();
+
+    void on_searchButton_clicked();
+
+    void on_tabWidget_tabBarClicked(int index);
+
+    void on_returnButton_clicked();
+
+    void on_refreshButton_clicked();
+
+    void on_addPicButton_clicked();
+
+    void edit_commodity();
+
+    void on_saveProductButton_clicked();
+
+    void on_addProductButton_clicked();
+
+    void on_shoppingRecordButton_clicked();
+
+    void on_supportButton_clicked();
+
+    void on_homeButton_clicked();
+
+    void on_iconButton_clicked();
+
+    void on_sendButton_clicked();
+
+    void on_removeProductButton_clicked();
+
 private:
+
+    // 初始化一切
+    void init();
+
+    // 建立连接
+    void setConnections();
 
     Ui::MainWindow *ui;
 
+    // 实现窗口拖拽
+    QPoint m_dragPosition;
+
+    Product curProduct;
+
+    QString curPic;
+
+    QStandardItemModel *model;
+
     DatabaseHelper *dbhlp;
+
     static qintptr AsocketDiscriptor;
-    QMutex mutex;
+
     QList<qintptr>socketDiscriptorList;
+
+    QMap<qintptr, QListWidget *> chatListWidgets;
+
+    QMap<int, qintptr> chatTab;
+
+    QMap<int, qintptr> sockets;
+
+    bool isUsedTab[ChatTabs];
+
+    int chats;
+
     TcpServer *server;
 
+    QMutex mutex;
+
+    stack<int> lastTab;
 };
 #endif // MAINWINDOW_H

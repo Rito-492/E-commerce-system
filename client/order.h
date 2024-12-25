@@ -51,6 +51,9 @@ public:
     QString getOrderProductName() const;
     void setOrderProductName(const QString &value);
 
+    QString getOrderProductImage() const;
+    void setOrderProductImage(const QString &value);
+
     int getOrderId() const;
     void setOrderId(int value);
 
@@ -60,6 +63,7 @@ private:
     int orderProductNum;
     QString orderProductStyle;
     int orderProductId;
+    QString orderProductImage;
     QString orderCost;
     QDateTime orderTime;
     QString orderClient;

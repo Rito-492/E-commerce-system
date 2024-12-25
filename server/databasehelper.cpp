@@ -308,6 +308,34 @@ Client DatabaseHelper::getClientByNameAndPwd(const QString& name, const QString&
     return row;
 }
 
+Client DatabaseHelper::getClientById(const int id)
+{
+    // 创建一个 QVariantMap 来存储 WHERE 子句的条件
+    QVariantMap whereFields;
+    whereFields["client_id"] = id;
+
+    // 调用 selectRecords 函数并获取结果
+    QList<QVariantMap> tmpList = selectRecords("`client`", whereFields);
+
+    Client row;
+
+    if (tmpList.size() > 1) {
+        qDebug() << "There is a wrong !";
+    } else {
+        for (const QVariantMap &tmp : tmpList) {
+            row.setClientName(tmp.value("client_name").toString());
+            row.setClientId(tmp.value("client_id").toInt());
+            row.setClientPhone(tmp.value("client_phone").toString());
+            row.setClientSignTime(tmp.value("client_sign_time").toDateTime());
+            row.setClientPwd(tmp.value("client_pwd").toString());
+            row.setClientBought(tmp.value("client_bought").toInt());
+            row.setClientImage(tmp.value("client_image").toString());
+        }
+    }
+
+    return row;
+}
+
 bool DatabaseHelper::insertClient(const Client client)
 {
     QVariantMap record;
@@ -337,11 +365,8 @@ bool DatabaseHelper::updateClient(const Client client)
 
     QVariantMap record;
     record["client_name"] = client.getClientName();
-    record["client_id"] = client.getClientId();
     record["client_phone"] = client.getClientPhone();
-    record["client_sign_time"] = client.getClientSignTime();
     record["client_pwd"] = client.getClientPwd();
-    record["client_bought"] = client.getClientBought();
     record["client_image"] = client.getClientImage();
 
     return updateRecord("`client`", record, whereFields);
@@ -411,14 +436,25 @@ QList<Order> DatabaseHelper::getOrderListByInfo(const Client client)
 
 bool DatabaseHelper::addOrder(const Order order)
 {
+    Client client(getClientById(order.getOrderClientId()));
+    int bought = client.getClientBought();
+    client.setClientBought(bought + order.getOrderProductNum());
+    updateClient(client);
+
+    Product product(getProductById(order.getOrderProductId()));
+    int num = product.getProductNum();
+    int buy_num = product.getProductBuyNum();
+    product.setProductNum(num - order.getOrderProductNum());
+    product.setProductBuyNum(buy_num + order.getOrderProductNum());
+    updateProductByInfo(product);
+
     QVariantMap record;
-    record["order_id"] = order.getOrderId();
     record["order_product_name"] = order.getOrderProductName();
     record["order_product_num"] = order.getOrderProductNum();
     record["order_product_style"] = order.getOrderProductStyle();
     record["order_product_id"] = order.getOrderProductId();
     record["order_cost"] = order.getOrderCost();
-    record["order_time"] = order.getOrderTime();
+    record["order_time"] = QDateTime::currentDateTime().toString("yyyy-MM-dd");
     record["order_client"] = order.getOrderClient();
     record["order_client_id"] = order.getOrderClientId();
     record["order_check"] = order.getOrderCheck();
@@ -427,92 +463,7 @@ bool DatabaseHelper::addOrder(const Order order)
     return insertRecord("`order`", record);
 }
 
-// QList<Order> DatabaseHelper::getOrderLikeList(const QString& mess)
-// {
-//     OrderList.clear();
-//     struct soap select_soap;
-//     soap_init(&select_soap);
-//     soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
-//     lkf2__getOrderLikeList res;
-//     lkf2__getOrderLikeListResponse rep;
-//     res.arg0 = (StringTrans::QString2string(mess));
-//     int result = soap_call___lkf1__getOrderLikeList(&select_soap,NULL,NULL,&res,rep);
-//     if(!result)
-//     {
-//         //        qDebug()<<"查询成功";
-//         std::vector<lkf2__order*> orderList = rep.return_;
-//         for(int i=0 ;i < (int)orderList.size();i++ )
-//         {
-//             Order* order = transObjects::transOrder(orderList[i]);
-//             OrderList.append(order);
-//             //            qDebug()<<order->getOrderId();
-//         }
-//     }
-//     return OrderList;
-// }
-
-// QList<Order> DatabaseHelper::getOrderListHistory()
-// {
-//     OrderList.clear();
-//     struct soap select_soap;
-//     soap_init(&select_soap);
-//     soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
-//     lkf2__getOrderList res;
-//     lkf2__getOrderListResponse rep;
-//     int result = soap_call___lkf1__getOrderList(&select_soap,NULL,NULL,&res,rep);
-//     //    qDebug()<<result;
-//     if(!result)
-//     {
-//         std::vector<lkf2__order*> orderList = rep.return_;
-//         for(int i=0;i<(int)orderList.size();i++)
-//         {
-//             Order* order = transObjects::transOrder(orderList[i]);
-//             OrderList.append(order);
-//         }
-//         qDebug()<<OrderList.size();
-//         for(int i=0;i<OrderList.size();i++)
-//         {
-//             //            qDebug()<<OrderList[i]->getOrderProductName();
-//             //            qDebug()<<OrderList[i]->getOrderCost();
-//             //            qDebug()<<OrderList[i]->getOrderTime();
-//         }
-//     }
-//     return OrderList;
-// }
-
-// bool DatabaseHelper::updateHistory(const Order& order)
-// {
-//     struct soap update_soap;
-//     soap_init(&update_soap);
-//     soap_set_mode(&update_soap,SOAP_C_UTFSTRING);
-//     lkf2__updateHistory res;
-//     lkf2__updateHistoryResponse rep;
-//     lkf2__order * javaorder = transObjects::retransOrder(order);
-//     res.arg0 = javaorder;
-//     int  result = soap_call___lkf1__updateHistory(&update_soap,NULL,NULL,&res,rep);
-//     //    qDebug()<<result;
-//     if(!result){
-//         qDebug()<<"更新成功";
-//     }
-// }
-
-// bool DatabaseHelper::deleteShoppingCart(const Order& order)
-// {
-//     struct soap delete_soap;
-//     soap_init(&delete_soap);
-//     soap_set_mode(&delete_soap,SOAP_C_UTFSTRING);
-
-//     lkf2__deleteShoppingCart res;
-//     lkf2__deleteShoppingCartResponse rep;
-//     res.arg0 = transObjects::retransOrder(order);
-//     int result = soap_call___lkf1__deleteShoppingCart(&delete_soap,NULL,NULL,&res,rep);
-//     if(!result)
-//     {
-//         //        qDebug()<<"删除成功";
-//     }
-// }
-
-QList<Product> DatabaseHelper::getProductList(const int& choose)
+QList<Product> DatabaseHelper::getProductList()
 {
     ProductList.clear();
     getAllRecords("`product`");
@@ -600,10 +551,9 @@ QList<Product> DatabaseHelper::searchProductByName(const QString toSearchProduct
 //     return ProductList;
 // }
 
-bool DatabaseHelper::addProduct(const Product& product)
+int DatabaseHelper::addProduct(const Product& product)
 {
     QVariantMap record;
-    record["product_id"] = product.getProductId();
     record["product_name"] = product.getProductName();
     record["product_price"] = product.getProductPrice();
     record["product_num"] = product.getProductNum();
@@ -611,7 +561,17 @@ bool DatabaseHelper::addProduct(const Product& product)
     record["product_image"] = product.getProductImage();
     record["product_discount"] = product.getProductDiscount();
 
-    return insertRecord("`product`", record);
+    if (insertRecord("`product`", record)) {
+        QList<QVariantMap> tmpList = selectRecords("`product`", record);
+        if (tmpList.size() != 1) {
+            qDebug() << "There is a wrong !";
+            return 0;
+        } else {
+            return tmpList.begin()->value("product_id").toInt();
+        }
+    } else {
+        return 0;
+    }
 }
 
 Product DatabaseHelper::getProductById(const int& productId)
@@ -668,30 +628,6 @@ bool DatabaseHelper::updateProductByInfo(const Product& product)
 
     return updateRecord("`product`", record, whereFields);
 }
-
-// QList<Product> DatabaseHelper::getProductLikeList(const QString& mess)
-// {
-//     ProductList.clear();
-//     struct soap select_soap;
-//     soap_init(&select_soap);
-//     soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
-//     lkf2__getProductLikeList res;
-//     lkf2__getProductLikeListResponse rep;
-//     res.arg0 = (StringTrans::QString2string(mess));
-//     int result = soap_call___lkf1__getProductLikeList(&select_soap,NULL,NULL,&res,rep);
-//     if(!result)
-//     {
-//         qDebug()<<"查询成功";
-//         std::vector<lkf2__product*> productList = rep.return_;
-//         for(int i=0 ;i < (int)productList.size();i++ )
-//         {
-//             Product* Product = transObjects::transProduct(productList[i]);
-//             ProductList.append(Product);
-//             //            qDebug()<<Product->getProductId();
-//         }
-//     }
-//     return ProductList;
-// }
 
 QSqlDatabase& DatabaseHelper::getDatabase()
 {

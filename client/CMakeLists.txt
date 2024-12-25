@@ -31,6 +31,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         order.h order.cpp
         product.h product.cpp
         login.h login.cpp login.ui
+        carousel.h carousel.cpp
+        clickablelabel.h
 
 
 

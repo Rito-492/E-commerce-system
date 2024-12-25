@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/TitleBar">
+    <qresource prefix="/">
         <file>icons/close.png</file>
         <file>icons/maximize.png</file>
         <file>icons/minimize.png</file>
@@ -11,5 +11,7 @@
         <file>icons/login.png</file>
         <file>icons/refresh.png</file>
         <file>icons/return.png</file>
+        <file>icons/left-arrow.png</file>
+        <file>icons/right-arrow.png</file>
     </qresource>
 </RCC>

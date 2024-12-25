@@ -184,6 +184,16 @@ void Order::setOrderProductName(const QString &value)
     orderProductName = value;
 }
 
+QString Order::getOrderProductImage() const
+{
+    return orderProductImage;
+}
+
+void Order::setOrderProductImage(const QString &value)
+{
+    orderProductImage = value;
+}
+
 int Order::getOrderId() const
 {
     return orderId;

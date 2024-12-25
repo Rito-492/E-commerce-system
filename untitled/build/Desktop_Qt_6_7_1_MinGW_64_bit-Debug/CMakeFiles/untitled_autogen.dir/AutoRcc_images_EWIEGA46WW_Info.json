@@ -1,0 +1,30 @@
+{
+	"BUILD_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/untitled_autogen",
+	"CMAKE_BINARY_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug",
+	"CMAKE_CURRENT_SOURCE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled",
+	"CMAKE_SOURCE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled",
+	"CROSS_CONFIG" : false,
+	"GENERATOR" : "Ninja",
+	"INCLUDE_DIR" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/untitled_autogen/include",
+	"INPUTS" : 
+	[
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images/image3.jpg",
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images/image1.jpg",
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images/image6.jpg",
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images/image4.jpg",
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images/image5.jpg",
+		"C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images/image2.jpg"
+	],
+	"LOCK_FILE" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/untitled_autogen.dir/AutoRcc_images_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "--no-zstd", "-name", "images" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_images.cpp",
+	"RCC_EXECUTABLE" : "C:/Qt/6.7.1/mingw_64/./bin/rcc.exe",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/untitled_autogen.dir/AutoRcc_images_EWIEGA46WW_Used.txt",
+	"SOURCE" : "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/untitled/images.qrc",
+	"USE_BETTER_GRAPH" : false,
+	"VERBOSITY" : 0
+}

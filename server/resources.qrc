@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/new/prefix1">
+        <file>icons/close.png</file>
+        <file>icons/ICON.png</file>
+        <file>icons/login.png</file>
+        <file>icons/maximize.png</file>
+        <file>icons/minimize.png</file>
+        <file>icons/refresh.png</file>
+        <file>icons/return.png</file>
+        <file>icons/searchButton.png</file>
+        <file>icons/shoppingCart.png</file>
+        <file>icons/shoppingRecord.png</file>
+        <file>icons/support.png</file>
+        <file>icons/theme.png</file>
+        <file>icons/theme0.png</file>
+        <file>icons/addPic.png</file>
+    </qresource>
+</RCC>

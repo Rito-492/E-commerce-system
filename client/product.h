@@ -10,8 +10,14 @@
 class Product
 {
 public:
+
     Product();
     Product(int productId, QString productName, int productPrice, int productNum, int productBuyNum, QString productImage, float productDiscount);
+
+    bool operator<(const Product &other) const {
+        // 基于销量比较
+        return this->productBuyNum > other.productBuyNum;
+    }
 
     static QJsonObject toJsonObject(const Product& product);
     // 静态成员函数：从QJsonObject转换为Product对象

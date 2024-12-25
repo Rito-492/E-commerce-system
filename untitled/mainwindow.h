@@ -2,9 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QVBoxLayout>
-#include <QListWidget>
-#include "bubblemessagewidget.h"
+#include <QLabel>
+#include <QTimer>
+#include <QVector>
+#include <QString>
+#include <QPropertyAnimation>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -19,11 +21,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void addMessage(const QString &text);
+    void showNextImage();
 
 private:
     Ui::MainWindow *ui;
-    QListWidget *messageList;
+    QLabel *imageLabel;
+    QTimer *timer;
+    QVector<QString> imagePaths; // 存储图片路径的向量
+    int currentIndex; // 当前显示的图片索引
 };
-
 #endif // MAINWINDOW_H

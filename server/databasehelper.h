@@ -47,13 +47,13 @@ public:
 
     Client getClientByNameAndPwd(const QString& name, const QString& pwd);
 
+    Client getClientById(const int id);
+
     bool insertClient(const Client client);
 
     bool deleteClientByNameAndPwd(const QString& name, const QString& pwd);
 
     bool updateClient(const Client client);
-
-    //QList<Client> getClientLikeList(const QString& mess);
 
     // Order表的增删改查
     QList<Order> getOrderList();
@@ -71,11 +71,11 @@ public:
     //bool deleteShoppingCart(const Order& order);
 
     // 商品表的增删改查
-    QList<Product>  getProductList(const int& choose);
+    QList<Product>  getProductList();
 
     //QList<Product>  getProductListByInfo(const Product& product);
 
-    bool addProduct(const Product& product);
+    int addProduct(const Product& product);
 
     bool deleteProductByInfo(const Product& product);
 

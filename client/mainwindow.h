@@ -1,17 +1,22 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "carousel.h"
 #include "client.h"
 #include "login.h"
 #include "order.h"
 #include "product.h"
 #include "tcpsocket.h"
 
+#include <algorithm>
 #include <QApplication>
+#include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
+#include <QList>
+#include <QListView>
 #include <QListWidget>
 #include <QMainWindow>
 #include <QMessageBox>
@@ -22,6 +27,8 @@
 #include <QPoint>
 #include <QRegion>
 #include <QScrollBar>
+#include <QStandardItem>
+#include <QStandardItemModel>
 #include <QTabWidget>
 #include <QTabBar>
 #include <QTextEdit>
@@ -44,6 +51,7 @@
 #define signin 1000010
 #define updateProfile 1000011
 #define getOrders 1000012
+#define getAllProducts 1000013
 
 using namespace std;
 
@@ -127,6 +135,18 @@ private slots:
 
     void on_purchaseButton_clicked();
 
+    void on_payButton_clicked();
+
+    void on_shoppingCartButton_clicked();
+
+    void on_addToCartButton_clicked();
+
+    void on_purchaseButton2_clicked();
+
+    void on_clearButton_clicked();
+
+    void on_avatarButton_clicked();
+
 private:
 
     void init();
@@ -135,51 +155,45 @@ private:
 
     Ui::MainWindow *ui;
 
+    // 轮播图
+    Carousel *carousel;
+
     // 实现窗口拖拽
     QPoint m_dragPosition;
 
     // 标记是否正在登录
     bool isLogging;
+
     // 标记是否已登录
     bool isLogged;
+
     // 登录窗口指针
     Login *loginWindow;
 
     // 当前登录的用户信息
     Client curClient;
 
+    // 当前头像
+    QString curAvatar;
+
     // 商品搜索结果列表
     QList<Product> resultProducts;
+
+    // 所有商品
+    QList<Product> allProducts;
 
     // 当前展示的商品
     Product curProduct;
 
     int theme;
 
-    // 客服界面指针
-    QWidget *supportTab;
-
-    QListWidget *supportListWidget;
-
-    // 购买记录界面指针
-    QWidget *shoppingRecordsTab;
-
-    QListWidget *shoppingRecordsListWidget;
-
-    // 搜索结果界面指针
-    QWidget *resultTab;
-
-    QListWidget *resultListWidget;
-
-    // 商品界面指针
-    QWidget *commodityTab;
-
-    // 购买界面指针
-    QWidget *purchaseTab;
-
-    QListWidget *purchaseListWidget;
-
     QList<Order> toPayOrders;
+
+    QList<Order> productsInCart;
+
+    QStandardItemModel *model;
+
+    Order curOrder;
 
     // 记录上一个界面， 用于返回
     stack<int> lastTab;
