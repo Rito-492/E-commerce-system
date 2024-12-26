@@ -124,6 +124,8 @@ private slots:
 
     void on_removeProductButton_clicked();
 
+    void on_themeButton_clicked();
+
 private:
 
     // 初始化一切
@@ -158,6 +160,8 @@ private:
     bool isUsedTab[ChatTabs];
 
     int chats;
+
+    int theme;
 
     TcpServer *server;
 

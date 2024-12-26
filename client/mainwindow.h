@@ -7,6 +7,7 @@
 #include "order.h"
 #include "product.h"
 #include "tcpsocket.h"
+#include "searchline.h"
 
 #include <algorithm>
 #include <QApplication>
@@ -157,6 +158,9 @@ private:
 
     // 轮播图
     Carousel *carousel;
+
+    // 关键词联想
+    SearchLine *searchLine;
 
     // 实现窗口拖拽
     QPoint m_dragPosition;

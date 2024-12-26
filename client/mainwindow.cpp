@@ -71,11 +71,11 @@ void MainWindow::init() {
                                  "QTabWidget::pane { border: none; }"
                                  );
 
-    ui->supportListWidget->setIconSize(QSize(20, 20));
-
     ui->shoppingRecordsTableView->setStyleSheet(
         "font: 11pt \"华文中宋\";"
         );
+
+    ui->supportListWidget->setIconSize(QSize(20, 20));
 
     ui->resultListWidget->setIconSize(QSize(150, 150));
 
@@ -88,6 +88,8 @@ void MainWindow::init() {
     model = new QStandardItemModel;
 
     on_homeButton_clicked();
+
+    // searchLine = new SearchLine(ui->titleBar);
 }
 
 void MainWindow::setConnections() {
@@ -449,41 +451,156 @@ void MainWindow::on_themeButton_clicked()
     switch (theme) {
     case 0:
         this->setStyleSheet(
-            "alternate-background-color: rgb(255, 219, 254);"
+            "QWidget#centralwidget {"
+            "background-color: rgb(255, 255, 255);"
             "font: 14pt \"华文中宋\";"
+            "color: rgb(255, 255, 255);"
+            "}"
+            //247, 249, 252
+            "QPushButton {"
+            "font: 14pt \"华文中宋\";"
+            "background-color: rgb(240, 240, 240);"
+            "border-radius:5px;"
+            "}"
+
+            "QLabel {"
+            "font: 14pt \"华文中宋\";"
+            "}"
+
+            "QLineEdit {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:4px;"
+            "background-color: rgb(240, 240, 240);"
+            "}"
+
+            "QTextEdit {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(240, 240, 240);"
+            "}"
+
+            "QListWidget {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(240, 240, 240);"
+            "}"
+
+            "QTableView {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(240, 240, 240);"
+            "}"
+
+            "QListView {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(240, 240, 240);"
+            "}"
         );
         break;
     case 1:
         this->setStyleSheet(
-            "alternate-background-color: rgb(254, 255, 187);"
-            "font: 14pt \"华文中宋\";"
+            "QWidget#centralwidget {"
+            "background-color: rgb(254, 255, 187);"
+            "font: 14pt \"华文隶书\";"
+            "color: rgb(255, 255, 255);"
+            "}"
+
+            "QPushButton {"
+            "font: 14pt \"华文隶书\";"
+            "background-color: rgb(252, 175, 73);"
+            "border-radius:5px;"
+            "}"
+
+            "QLabel {"
+            "font: 14pt \"华文隶书\";"
+            "}"
+
+            "QLineEdit {"
+            "font: 14pt \"华文隶书\";"
+            "border-radius:4px;"
+            "background-color: rgb(252, 175, 73);"
+            "}"
+
+            "QTextEdit {"
+            "font: 14pt \"华文隶书\";"
+            "border-radius:10px;"
+            "background-color: rgb(252, 175, 73);"
+            "}"
+
+            "QListWidget {"
+            "font: 14pt \"华文隶书\";"
+            "border-radius:10px;"
+            "background-color: rgb(252, 175, 73);"
+            "}"
+
+            "QTableView {"
+            "font: 14pt \"华文隶书\";"
+            "border-radius:10px;"
+            "background-color: rgb(252, 175, 73);"
+            "}"
+
+            "QListView {"
+            "font: 14pt \"华文隶书\";"
+            "border-radius:10px;"
+            "background-color: rgb(252, 175, 73);"
+            "}"
         );
         break;
     case 2:
         this->setStyleSheet(
-            //"QWidget::centralWidget {"
-            "alternate-background-color: rgb(243, 198, 255);"
-            "font: 14pt \"华文中宋\";"
-            //"}"
-            "QPushButoon {"
-            "border:1px solid rgb(253,253,253); "
-            "background-color: rgb(252, 175, 73); "
+            "QWidget#centralwidget {"
+            "background-color: rgb(249, 169, 255);"
+            "font: 14pt \"华文新魏\";"
             "color: rgb(255, 255, 255);"
-            "border-radius:15px;"
-           " font-family: \"微软雅黑\";"
-            "border-color: rgb(255, 255, 255);"
+            "}"
 
+            "QPushButton {"
+            "font: 14pt \"华文新魏\";"
+            "background-color: rgb(255, 205, 253);"
+            "border-radius:5px;"
             "}"
-            "QPushButton::hover#sendButton {"
-            "   background-color: lightblue; /* 鼠标悬停时背景变为浅蓝色 */"
-            "   color: darkblue;            /* 鼠标悬停时文本变为深蓝色 */"
-            "   border: 2px solid darkblue; /* 鼠标悬停时边框变为2像素宽的深蓝色实线 */"
+
+            "QLabel {"
+            "font: 14pt \"华文新魏\";"
             "}"
+
+            "QLineEdit {"
+            "font: 14pt \"华文新魏\";"
+            "border-radius:4px;"
+            "background-color: rgb(255, 205, 253);"
+            "}"
+
+            "QTextEdit {"
+            "font: 14pt \"华文新魏\";"
+            "border-radius:10px;"
+            "background-color: rgb(255, 205, 253);"
+            "}"
+
+            "QListWidget {"
+            "font: 14pt \"华文新魏\";"
+            "border-radius:10px;"
+            "background-color: rgb(255, 205, 253);"
+            "}"
+
+            "QTableView {"
+            "font: 14pt \"华文新魏\";"
+            "border-radius:10px;"
+            "background-color: rgb(255, 205, 253);"
+            "}"
+
+            "QListView {"
+            "font: 14pt \"华文新魏\";"
+            "border-radius:10px;"
+            "background-color: rgb(255, 205, 253);"
+            "}"
+
         );
         break;
     }
+    qDebug() << "theme: " << theme << Qt::endl;
 
-    //theme++;
+    theme++;
     if (theme == 3) theme = 0;
 
     //QMessageBox::information(nullptr, "", QString::number(theme));

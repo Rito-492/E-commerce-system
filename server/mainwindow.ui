@@ -66,7 +66,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgba(0, 0, 0, 0);</string>
+       <string notr="true">/*background-color: rgba(0, 0, 0, 0);</string>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
        <property name="spacing">
@@ -601,7 +601,7 @@
           <enum>QTabWidget::TabPosition::North</enum>
          </property>
          <property name="currentIndex">
-          <number>4</number>
+          <number>3</number>
          </property>
          <property name="elideMode">
           <enum>Qt::TextElideMode::ElideNone</enum>
@@ -734,9 +734,21 @@
               </item>
               <item>
                <widget class="QListWidget" name="usersListWidget">
+                <property name="sizePolicy">
+                 <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <horstretch>0</horstretch>
+                  <verstretch>0</verstretch>
+                 </sizepolicy>
+                </property>
+                <property name="minimumSize">
+                 <size>
+                  <width>168</width>
+                  <height>460</height>
+                 </size>
+                </property>
                 <property name="maximumSize">
                  <size>
-                  <width>200</width>
+                  <width>168</width>
                   <height>16777215</height>
                  </size>
                 </property>
@@ -760,8 +772,27 @@
               </size>
              </property>
              <layout class="QHBoxLayout" name="horizontalLayout_7">
+              <property name="leftMargin">
+               <number>14</number>
+              </property>
+              <property name="rightMargin">
+               <number>14</number>
+              </property>
               <item>
-               <widget class="QTextEdit" name="toSendTextEdit"/>
+               <widget class="QTextEdit" name="toSendTextEdit">
+                <property name="minimumSize">
+                 <size>
+                  <width>652</width>
+                  <height>0</height>
+                 </size>
+                </property>
+                <property name="maximumSize">
+                 <size>
+                  <width>652</width>
+                  <height>16777215</height>
+                 </size>
+                </property>
+               </widget>
               </item>
               <item>
                <spacer name="horizontalSpacer_6">

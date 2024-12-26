@@ -33,6 +33,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         login.h login.cpp login.ui
         carousel.h carousel.cpp
         clickablelabel.h
+        searchline.h searchline.cpp searchline.ui
+
 
 
 
