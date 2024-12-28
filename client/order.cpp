@@ -27,6 +27,7 @@ QJsonObject Order::toJsonObject(const Order& order) {
     json["order_product_num"] = order.orderProductNum;
     json["order_product_style"] = order.orderProductStyle;
     json["order_product_id"] = order.orderProductId;
+    json["order_product_image"] = order.getOrderProductImage();
     json["order_cost"] = order.orderCost; // 假设 order_cost 是 qreal 类型，并格式化为两位小数
     json["order_time"] = order.orderTime.toString("yyyy-MM-dd");
     json["order_client"] = order.orderClient;
@@ -43,6 +44,7 @@ Order Order::fromJsonObject(const QJsonObject& json) {
     order.orderProductNum = json["order_product_num"].toInt();
     order.orderProductStyle = json["order_product_style"].toString();
     order.orderProductId = json["order_product_id"].toInt();
+    order.orderProductImage = json["order_product_image"].toString();
     order.orderCost = json["order_cost"].toString();
     order.orderTime = QDateTime::fromString(json["order_time"].toString(), "yyyy-MM-dd");
     order.orderClient = json["order_client"].toString();

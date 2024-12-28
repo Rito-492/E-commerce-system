@@ -26,6 +26,7 @@ QJsonObject Product::toJsonObject(const Product& product) {
     json["product_buy_num"] = product.productBuyNum;
     json["product_image"] = product.productImage;
     json["product_discount"] = product.productDiscount;
+    json["product_picked_time"] = product.pickedTime.toString();
     return json;
 }
 
@@ -39,6 +40,7 @@ Product Product::fromJsonObject(const QJsonObject& json) {
     product.productBuyNum = json["product_buy_num"].toInt();
     product.productImage = json["product_image"].toString();
     product.productDiscount = json["product_discount"].toDouble();
+    product.pickedTime = QDateTime::fromString(json["product_picked_time"].toString());
     return product;
 }
 
@@ -141,4 +143,12 @@ int Product::getProductId() const
 void Product::setProductId(int value)
 {
     productId = value;
+}
+
+void Product::setPickedTime(const QDateTime time) {
+    pickedTime = time;
+}
+
+QDateTime Product::getPickedTime() const {
+    return pickedTime;
 }

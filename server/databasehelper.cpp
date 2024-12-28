@@ -423,15 +423,61 @@ QList<Order> DatabaseHelper::getOrderList()
 
 QList<Order> DatabaseHelper::getOrderListByInfo(const Client client)
 {
-    getOrderList();
-    QList<Order> ans;
 
-    for (const Order &tmp : OrderList) {
-        if (tmp.getOrderClientId() == client.getClientId()) {
-            ans.append(tmp);
-        }
+    // 创建一个 QVariantMap 来存储 WHERE 子句的条件
+    QVariantMap whereFields;
+    whereFields["order_client_id"] = client.getClientId();
+
+    // 调用 selectRecords 函数并获取结果
+    QList<QVariantMap> tmpList = selectRecords("`order`", whereFields);
+
+    QList<Order> orders;
+    for (const QVariantMap &tmp : tmpList) {
+        Order row;
+        row.setOrderId(tmp.value("order_id").toInt());
+        row.setOrderProductName(tmp.value("order_product_name").toString());
+        row.setOrderProductNum(tmp.value("order_product_num").toInt());
+        row.setOrderProductStyle(tmp.value("order_product_style").toString());
+        row.setOrderProductId(tmp.value("order_product_id").toInt());
+        row.setOrderCost(tmp.value("order_cost").toString());
+        row.setOrderTime(tmp.value("order_time").toDateTime());
+        row.setOrderClient(tmp.value("order_client").toString());
+        row.setOrderClientId(tmp.value("order_client_id").toInt());
+        row.setOrderCheck(tmp.value("order_check").toInt());
+        row.setOrderHide(tmp.value("order_hide").toInt());
+        orders.append(row);
     }
-    return ans;
+
+    return orders;
+}
+
+QList<Order> DatabaseHelper::getOrderListByProduct(const Product product)
+{
+    // 创建一个 QVariantMap 来存储 WHERE 子句的条件
+    QVariantMap whereFields;
+    whereFields["order_product_id"] = product.getProductId();
+
+    // 调用 selectRecords 函数并获取结果
+    QList<QVariantMap> tmpList = selectRecords("`order`", whereFields);
+
+    QList<Order> orders;
+    for (const QVariantMap &tmp : tmpList) {
+        Order row;
+        row.setOrderId(tmp.value("order_id").toInt());
+        row.setOrderProductName(tmp.value("order_product_name").toString());
+        row.setOrderProductNum(tmp.value("order_product_num").toInt());
+        row.setOrderProductStyle(tmp.value("order_product_style").toString());
+        row.setOrderProductId(tmp.value("order_product_id").toInt());
+        row.setOrderCost(tmp.value("order_cost").toString());
+        row.setOrderTime(tmp.value("order_time").toDateTime());
+        row.setOrderClient(tmp.value("order_client").toString());
+        row.setOrderClientId(tmp.value("order_client_id").toInt());
+        row.setOrderCheck(tmp.value("order_check").toInt());
+        row.setOrderHide(tmp.value("order_hide").toInt());
+        orders.append(row);
+    }
+
+    return orders;
 }
 
 bool DatabaseHelper::addOrder(const Order order)
@@ -461,6 +507,26 @@ bool DatabaseHelper::addOrder(const Order order)
     record["order_hide"] = order.getOrderHide();
 
     return insertRecord("`order`", record);
+}
+
+bool DatabaseHelper::updateOrderByInfo(const Order& order)
+{
+    QVariantMap whereFields;
+    whereFields["order_id"] = order.getOrderId();
+
+    QVariantMap record;
+    // record["order_product_name"] = order.getOrderProductName();
+    // record["order_product_num"] = order.getOrderProductNum();
+    // record["order_product_style"] = order.getOrderProductStyle();
+    // record["order_product_id"] = order.getOrderProductId();
+    // record["order_cost"] = order.getOrderCost();
+    // record["order_time"] = QDateTime::currentDateTime().toString("yyyy-MM-dd");
+    // record["order_client"] = order.getOrderClient();
+    // record["order_client_id"] = order.getOrderClientId();
+    // record["order_check"] = order.getOrderCheck();
+    record["order_hide"] = order.getOrderHide();
+
+    return updateRecord("`order`", record, whereFields);
 }
 
 QList<Product> DatabaseHelper::getProductList()

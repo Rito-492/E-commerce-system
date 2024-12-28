@@ -1,106 +1,51 @@
-// // main.cpp
-// #include <QApplication>
-// #include <QWidget>
-// #include <QStackedWidget>
-// #include <QPropertyAnimation>
-// #include <QVBoxLayout>
-// #include <QTimer>
-// #include <QLabel>
-// #include <QPixmap>
-
-// class Carousel : public QWidget {
-//     Q_OBJECT
-
-// public:
-//     Carousel(const QStringList &imagePaths, QWidget *parent = nullptr)
-//         : QWidget(parent), currentIndex(0), imagePaths(imagePaths) {
-
-//         setFixedSize(400, 300); // 固定窗口大小
-
-//         stackedWidget = new QStackedWidget(this);
-
-//         // 添加图片到QStackedWidget
-//         for (const QString &path : imagePaths) {
-//             QLabel *label = new QLabel;
-//             label->setPixmap(QPixmap(path).scaled(400, 300, Qt::KeepAspectRatio, Qt::SmoothTransformation));
-//             label->setAlignment(Qt::AlignCenter);
-//             stackedWidget->addWidget(label);
-//         }
-
-//         QVBoxLayout *layout = new QVBoxLayout(this);
-//         layout->addWidget(stackedWidget);
-
-//         // 定时器用于自动切换页面
-//         QTimer *timer = new QTimer(this);
-//         connect(timer, &QTimer::timeout, this, &Carousel::nextPage);
-//         timer->start(3000); // 每3秒切换一次
-
-//         // 初始化动画
-//         animation = new QPropertyAnimation(stackedWidget, "pos");
-//         animation->setDuration(1000); // 动画持续时间1秒
-//     }
-
-// public slots:
-//     void nextPage() {
-//         int nextIndex = (currentIndex + 1) % imagePaths.size();
-
-//         // 设置动画的开始和结束位置
-//         animation->setStartValue(QPoint(0, 0));
-//         animation->setEndValue(QPoint(-width(), 0));
-
-//         // 在动画结束时切换页面
-//         connect(animation, &QPropertyAnimation::finished, this, [this, nextIndex]() {
-//             stackedWidget->setCurrentIndex(nextIndex);
-//             stackedWidget->move(0, 0); // 重置位置
-//             currentIndex = nextIndex;
-//         });
-
-//         animation->start();
-//     }
-
-// private:
-//     QStackedWidget *stackedWidget;
-//     QPropertyAnimation *animation;
-//     QStringList imagePaths;
-//     int currentIndex;
-// };
-
-// int main(int argc, char *argv[]) {
-//     QApplication app(argc, argv);
-
-//     // 图片路径列表
-//     QStringList imagePaths = {
-//         ":/images/image1.jpg",
-//         ":/images/image2.jpg",
-//         ":/images/image3.jpg"
-//     };
-
-//     Carousel carousel(imagePaths);
-//     carousel.show();
-
-//     return app.exec();
-// }
-
-// #include "main.moc"
-
+#include <QtCharts>
 #include <QApplication>
-#include "carousel.h"
+#include <QMainWindow>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
+    QMainWindow window;
 
-    QVector<QString> imagePaths = {
-        ":/images/image1.jpg",
-        ":/images/image2.jpg",
-        ":/images/image3.jpg",
-        ":/images/image4.jpg",
-        ":/images/image5.jpg",
-        ":/images/image6.jpg"
-        // 更多图片路径...
-    };
+    // 创建数据集
+    QBarSet *set0 = new QBarSet("Jane");
+    QBarSet *set1 = new QBarSet("John");
 
-    Carousel *carousel = new Carousel(imagePaths);
-    carousel->show();
+    *set0 << 1 << 2 << 3 << 4 << 5 << 6;
+    *set1 << 5 << 0 << 0 << 4 << 0 << 7;
+
+    // 创建柱状图系列
+    QBarSeries *series = new QBarSeries();
+    series->append(set0);
+    series->append(set1);
+
+    // 创建图表并设置系列
+    QChart *chart = new QChart();
+    chart->addSeries(series);
+    chart->setTitle("Simple barchart example");
+    chart->setAnimationOptions(QChart::SeriesAnimations);
+
+    // 创建分类轴
+    QStringList categories;
+    categories << "Jan" << "Feb" << "Mar" << "Apr" << "May" << "Jun";
+    QBarCategoryAxis *axisX = new QBarCategoryAxis();
+    axisX->append(categories);
+    chart->addAxis(axisX, Qt::AlignBottom);
+    series->attachAxis(axisX);
+
+    QValueAxis *axisY = new QValueAxis();
+    axisY->setRange(0, 15);
+    chart->addAxis(axisY, Qt::AlignLeft);
+    series->attachAxis(axisY);
+
+    // 创建图表视图并设置图表
+    QChartView *chartView = new QChartView(chart);
+    chartView->setRenderHint(QPainter::Antialiasing);
+
+    // 设置窗口的主部件
+    window.setCentralWidget(chartView);
+    window.resize(800, 600);
+    window.show();
 
     return a.exec();
 }

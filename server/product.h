@@ -21,6 +21,16 @@ public:
 
     static QList<Product> fromJsonObjectArray(const QJsonObject& jsonObj);
 
+    static bool cmpBySales(const Product &a, const Product &b) {
+        // 基于销量比较
+        return a.productBuyNum > b.productBuyNum;
+    }
+
+    static bool cmpByPrice(const Product &a, const Product &b) {
+        // 基于价格比较
+        return a.productPrice > b.productPrice;
+    }
+
     float getProductDiscount() const;
     void setProductDiscount(float value);
 

@@ -7,7 +7,9 @@
 #include "product.h"
 #include "tcpserver.h"
 
+#include <algorithm>
 #include <QApplication>
+#include <QtCharts>
 #include <QDebug>
 #include <QFileDialog>
 #include <QJsonArray>
@@ -55,6 +57,7 @@
 #define updateProfile 1000011
 #define getOrders 1000012
 #define getAllProducts 1000013
+#define withDrawProduct 1000014
 
 using namespace std;
 
@@ -65,7 +68,10 @@ const int ResultTab = 1;
 const int ShoppingRecordsTab = 2;
 const int SupportTab = 3;
 const int CommodityTab = 4;
+const int AnalyseTab = 5;
+
 const int ChatTabs = 5;
+const int AnalyseDays = 30;
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -126,6 +132,16 @@ private slots:
 
     void on_themeButton_clicked();
 
+    void on_sortButton1_clicked();
+
+    void on_sortButton2_clicked();
+
+    void on_sortButton11_clicked();
+
+    void on_sortButton22_clicked();
+
+    void on_analyseButton_clicked();
+
 private:
 
     // 初始化一切
@@ -141,6 +157,12 @@ private:
 
     Product curProduct;
 
+    QList<Product> allProducts;
+
+    QList<Product> resultProducts;
+
+    QChartView *view;
+
     QString curPic;
 
     QStandardItemModel *model;
@@ -149,7 +171,7 @@ private:
 
     static qintptr AsocketDiscriptor;
 
-    QList<qintptr>socketDiscriptorList;
+    QList<qintptr> socketDiscriptorList;
 
     QMap<qintptr, QListWidget *> chatListWidgets;
 
@@ -162,6 +184,14 @@ private:
     int chats;
 
     int theme;
+
+    int sortBtn1Clicks;
+
+    int sortBtn2Clicks;
+
+    int sortBtn11Clicks;
+
+    int sortBtn22Clicks;
 
     TcpServer *server;
 

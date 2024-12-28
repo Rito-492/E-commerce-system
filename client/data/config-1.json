@@ -1,0 +1,80 @@
+{
+    "orders": [
+        {
+            "order_check": 0,
+            "order_client": "汤雨润",
+            "order_client_id": 1,
+            "order_cost": "8397",
+            "order_hide": 0,
+            "order_id": 0,
+            "order_product_id": 36,
+            "order_product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad.jpg",
+            "order_product_name": "iPad",
+            "order_product_num": 3,
+            "order_product_style": "",
+            "order_time": ""
+        }
+    ],
+    "products": [
+        {
+            "product_buy_num": 349,
+            "product_discount": 1,
+            "product_id": 35,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-se.jpg",
+            "product_name": "iPhone SE",
+            "product_num": 48948,
+            "product_picked_time": "Sat Dec 28 18:16:07 2024",
+            "product_price": 3499
+        },
+        {
+            "product_buy_num": 329,
+            "product_discount": 1,
+            "product_id": 36,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad.jpg",
+            "product_name": "iPad",
+            "product_num": 13250,
+            "product_picked_time": "Sat Dec 28 18:16:10 2024",
+            "product_price": 2799
+        },
+        {
+            "product_buy_num": 2358,
+            "product_discount": 1,
+            "product_id": 34,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-15.jpg",
+            "product_name": "iPhone 15",
+            "product_num": 45740,
+            "product_picked_time": "Sat Dec 28 18:16:22 2024",
+            "product_price": 5399
+        },
+        {
+            "product_buy_num": -7,
+            "product_discount": 1,
+            "product_id": 44,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/vision-pro.jpg",
+            "product_name": "Apple Vision Pro",
+            "product_num": -2,
+            "product_picked_time": "Sat Dec 28 18:16:26 2024",
+            "product_price": 29999
+        },
+        {
+            "product_buy_num": 329,
+            "product_discount": 1,
+            "product_id": 36,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad.jpg",
+            "product_name": "iPad",
+            "product_num": 13250,
+            "product_picked_time": "Sat Dec 28 18:17:45 2024",
+            "product_price": 2799
+        },
+        {
+            "product_buy_num": 2,
+            "product_discount": 1,
+            "product_id": 32,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/watch-ultra2.jpg",
+            "product_name": "Apple Watch Ultra 2",
+            "product_num": 6655,
+            "product_picked_time": "Sat Dec 28 18:18:07 2024",
+            "product_price": 6499
+        }
+    ]
+}

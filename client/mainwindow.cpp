@@ -45,6 +45,36 @@ void MainWindow::paintEvent(QPaintEvent *event) {
 
 MainWindow::~MainWindow()
 {
+    // 创建一个QJsonObject
+    QJsonObject jsonObj;
+    QJsonArray jsonArray1;
+
+    for (const Order& order : productsInCart) {
+        jsonArray1.append(Order::toJsonObject(order));
+    }
+
+    jsonObj["orders"] = jsonArray1;
+
+    QJsonArray jsonArray2;
+    for (const Product& product : pickedProducts) {
+        jsonArray2.append(Product::toJsonObject(product));
+    }
+
+    jsonObj["products"] = jsonArray2;
+
+    // 将QJsonObject封装到QJsonDocument中
+    QJsonDocument jsonDoc(jsonObj);
+
+    // 将QJsonDocument转换为字符串并写入文件
+    QFile file(QString("%1/data/config-%2.json").arg(PATH, QString::number(curClient.getClientId())));
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Failed to open file for writing:" << file.errorString();
+    }
+
+    QTextStream out(&file);
+    out << jsonDoc.toJson(QJsonDocument::Indented);
+    file.close();
+
     delete ui;
     delete socket;
     delete loginWindow;
@@ -53,8 +83,6 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::init() {
-
-    on_themeButton_clicked();
 
     // 设置 Socket 与服务器连接
     socket = new TcpSocket;
@@ -66,6 +94,8 @@ void MainWindow::init() {
 
     // 设置登录窗口
     loginWindow = new Login();
+
+    model = new QStandardItemModel;
 
     ui->tabWidget->setStyleSheet("QTabBar::tab { height: 0px; max-height: 0px; min-height: 0px; }"
                                  "QTabWidget::pane { border: none; }"
@@ -83,13 +113,14 @@ void MainWindow::init() {
 
     ui->demoListWidget->setIconSize(QSize(100, 100));
 
+    ui->historyListWidget->setIconSize(QSize(100, 100));
+
     ui->cartListView->setIconSize(QSize(100, 100));
 
-    model = new QStandardItemModel;
+    on_themeButton_clicked();
 
     on_homeButton_clicked();
 
-    // searchLine = new SearchLine(ui->titleBar);
 }
 
 void MainWindow::setConnections() {
@@ -105,6 +136,8 @@ void MainWindow::setConnections() {
 
     connect(ui->titleBar->findChild<QLineEdit *>("searchLineEdit"), &QLineEdit::returnPressed, this, &MainWindow::on_searchButton_clicked);
 
+    connect(ui->titleBar->findChild<QLineEdit *>("searchLineEdit"), &QLineEdit::textChanged, this, &MainWindow::on_searchButton_clicked);
+
     connect(ui->resultListWidget, &QListWidget::itemClicked, this, [this](QListWidgetItem *item) {
         QString tmp(item->text());
         QString id;
@@ -115,6 +148,15 @@ void MainWindow::setConnections() {
     });
 
     connect(ui->demoListWidget, &QListWidget::itemClicked, this, [this](QListWidgetItem *item) {
+        QString tmp(item->text());
+        QString id;
+        for (int i = 10; i < tmp.length() && tmp[i] != '\n'; i++)
+            id += tmp[i];
+        curProduct.setProductId(id.toInt());
+        show_commodity();
+    });
+
+    connect(ui->historyListWidget, &QListWidget::itemClicked, this, [this](QListWidgetItem *item) {
         QString tmp(item->text());
         QString id;
         for (int i = 10; i < tmp.length() && tmp[i] != '\n'; i++)
@@ -147,6 +189,7 @@ void MainWindow::dealMessage(const QByteArray message) {
             isLogging = false;
             QMessageBox::information(nullptr, "登陆成功", "登陆成功！");
             ui->loginButton->setIcon(QIcon(curClient.getClientImage()));
+            initCartAndHistory();
             emit loginSuccessfully();
         }
         on_homeButton_clicked();
@@ -180,6 +223,13 @@ void MainWindow::dealMessage(const QByteArray message) {
 
     } else if (signal == QString::number(chatRoom)) {
 
+        QDateTime time = QDateTime::fromString(jsonObj["time"].toString());
+        if (QDateTime::currentDateTime().toSecsSinceEpoch() - time.toSecsSinceEpoch() > 120) {
+            QListWidgetItem *itemTime = new QListWidgetItem(jsonObj["time"].toString());
+            itemTime->setTextAlignment(Qt::AlignCenter);
+            ui->supportListWidget->addItem(itemTime);
+        }
+
         QListWidgetItem *itemSupport = new QListWidgetItem(QIcon("C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/client/icons/support.png"), "客服");
         ui->supportListWidget->addItem(itemSupport);
 
@@ -200,12 +250,15 @@ void MainWindow::dealMessage(const QByteArray message) {
             QList<Order> orders(Order::fromJsonObjectArray(jsonObj));
             model->clear();
             model->setColumnCount(8);
-            model->setHorizontalHeaderLabels({"订单编号", "商品编号", "商品名称", "用户编号", "用户名称", "交易数量", "实付款", "支付时间"});
+            model->setHorizontalHeaderLabels({"订单编号", "商品编号", "商品名称", "用户编号", "用户名称", "交易数量", "实付款", "支付时间", "售后"});
 
             // 添加带有复选框的项到模型
             for (int row = 0; row < orders.size(); row++) {
                 const Order& order = orders[row];
-                model->setItem(row, 0, new QStandardItem(QString::number(order.getOrderId())));
+                QStandardItem *item = new QStandardItem(QString::number(order.getOrderId()));
+                item->setCheckable(true);
+                item->setCheckState(Qt::Unchecked); // 初始状态为未选中
+                model->setItem(row, 0, item);
                 model->setItem(row, 1, new QStandardItem(QString::number(order.getOrderProductId())));
                 model->setItem(row, 2, new QStandardItem(order.getOrderProductName()));
                 model->setItem(row, 3, new QStandardItem(QString::number(order.getOrderClientId())));
@@ -213,18 +266,21 @@ void MainWindow::dealMessage(const QByteArray message) {
                 model->setItem(row, 5, new QStandardItem(QString::number(order.getOrderProductNum())));
                 model->setItem(row, 6, new QStandardItem(order.getOrderCost()));
                 model->setItem(row, 7, new QStandardItem(order.getOrderTime().toString("yyyy-MM-dd")));
+                model->setItem(row, 8, new QStandardItem(order.getOrderHide() ? "已退货" : "无"));
             }
 
             // 将模型设置到 QListView
             ui->shoppingRecordsTableView->setModel(model);
 
-            on_tabWidget_tabBarClicked(ShoppingRecordsTab);
+            ui->shoppingRecordsTableView->horizontalHeader()->setSortIndicatorShown(true);
+            ui->shoppingRecordsTableView->setSortingEnabled(true);
+
         }
         return ;
 
     } else if (signal == QString::number(searchProduct)) {
         resultProducts = Product::fromJsonObjectArray(jsonObj);
-        sort(resultProducts.begin(), resultProducts.end());
+        // sort(resultProducts.begin(), resultProducts.end(), Product::cmpBySales);
         for (const Product& tmp : resultProducts) {
             QString demo = QString("    商品编号: %1\n    商品名称: %2\n    商品价格: ￥%3\n    折后价: ￥%4\n    商品剩余量: %5\n").arg(QString::number(tmp.getProductId()), tmp.getProductName(), QString::number(tmp.getProductPrice()), QString::number((int)(tmp.getProductPrice() * tmp.getProductDiscount())), QString::number(tmp.getProductNum()));
             QListWidgetItem *itemProduct = new QListWidgetItem(QIcon(tmp.getProductImage()), demo);
@@ -236,6 +292,7 @@ void MainWindow::dealMessage(const QByteArray message) {
     } else if (signal == QString::number(refreshProduct)) {
 
         curProduct = Product::fromJsonObject(jsonObj);
+        curProduct.setPickedTime(QDateTime::currentDateTime());
 
         ui->spinBox->setValue(1);
 
@@ -249,6 +306,7 @@ void MainWindow::dealMessage(const QByteArray message) {
         ui->commodityRemainShowLabel->setText(QString::number(curProduct.getProductNum()));
         ui->subtotalShowLabel->setText(QString::number(price));
 
+        pickedProducts.append(curProduct);
         return ;
 
     } else if (signal == QString::number(addOrderList)) {
@@ -270,7 +328,7 @@ void MainWindow::dealMessage(const QByteArray message) {
         ui->demoListWidget->clear();
 
         allProducts = Product::fromJsonObjectArray(jsonObj);
-        sort(allProducts.begin(), allProducts.end());
+        sort(allProducts.begin(), allProducts.end(), Product::cmpBySales);
 
         QVector<QString> imagesPath;
         QList<Product>::iterator it = allProducts.begin();
@@ -296,6 +354,13 @@ void MainWindow::dealMessage(const QByteArray message) {
         }
 
         return ;
+    } else if (signal == QString::number(withDrawProduct)) {
+        if (jsonObj["isValid"].toBool()) {
+            QMessageBox::information(nullptr, "prompt", "退货成功!");
+        } else {
+            QMessageBox::information(nullptr, "prompt", "退货失败!");
+        }
+        on_refreshButton_clicked();
     }
 }
 
@@ -419,6 +484,14 @@ void MainWindow::on_saveButton_clicked()
 
 void MainWindow::on_sendButton_clicked()
 {
+    if (curClient.getClientId() == 0) {
+        QMessageBox::warning(nullptr, "Prompt", "请先登录!");
+        return ;
+    }
+
+    QListWidgetItem *itemTime = new QListWidgetItem(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    itemTime->setTextAlignment(Qt::AlignCenter);
+    ui->supportListWidget->addItem(itemTime);
 
     QListWidgetItem *itemClient = new QListWidgetItem(QIcon(curClient.getClientImage()), curClient.getClientName());
     //itemClient->setTextAlignment(Qt::AlignRight);
@@ -439,6 +512,7 @@ void MainWindow::on_sendButton_clicked()
     QJsonObject jsonObj(Client::toJsonObject(curClient));
     jsonObj["signal"] = QString::number(chatRoom);
     jsonObj["message"] = toSendText;
+    jsonObj["time"] = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
     QByteArray jsonString = QJsonDocument(jsonObj).toJson();
     // 发送消息到服务器
     socket->sendMessageToServer(jsonString);
@@ -597,11 +671,67 @@ void MainWindow::on_themeButton_clicked()
 
         );
         break;
+    case 3:
+        this->setStyleSheet(
+            "QWidget#centralwidget {"
+            "background-color: rgb(19, 19, 26);"
+            "font: 14pt \"华文中宋\";"
+            "color: rgb(255, 255, 255);"
+            "}"
+            //247, 249, 252
+            "QPushButton {"
+            "font: 14pt \"华文中宋\";"
+            "background-color: rgb(54, 54, 62);"
+            "color: rgb(255, 255, 255);"
+            "border-radius:5px;"
+            "}"
+
+            "QLabel {"
+            "font: 14pt \"华文中宋\";"
+            "color: rgb(255, 255, 255);"
+            "}"
+
+            "QLineEdit {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:4px;"
+            "background-color: rgb(54, 54, 62);"
+            "color: rgb(255, 255, 255);"
+            "}"
+
+            "QTextEdit {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(54, 54, 62);"
+            "color: rgb(255, 255, 255);"
+            "}"
+
+            "QListWidget {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(54, 54, 62);"
+            "color: rgb(255, 255, 255);"
+            "}"
+
+            "QTableView {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(54, 54, 62);"
+            "color: rgb(255, 255, 255);"
+            "}"
+
+            "QListView {"
+            "font: 14pt \"华文中宋\";"
+            "border-radius:10px;"
+            "background-color: rgb(54, 54, 62);"
+            "color: rgb(255, 255, 255);"
+            "}"
+            );
+        break;
     }
     qDebug() << "theme: " << theme << Qt::endl;
 
     theme++;
-    if (theme == 3) theme = 0;
+    if (theme == 4) theme = 0;
 
     //QMessageBox::information(nullptr, "", QString::number(theme));
 }
@@ -651,6 +781,8 @@ void MainWindow::on_refreshButton_clicked()
 
 void MainWindow::on_searchButton_clicked()
 {
+    sortBtn1Clicks = sortBtn2Clicks = 0;
+
     ui->resultListWidget->clear();
 
     QString toSearchName = ui->searchLineEdit->text();
@@ -792,6 +924,11 @@ void MainWindow::on_shoppingCartButton_clicked()
 
 void MainWindow::on_addToCartButton_clicked()
 {
+    if (curClient.getClientId() == 0) {
+        QMessageBox::warning(nullptr, "Prompt", "请先登录!");
+        return ;
+    }
+
     Order order;
     order.setOrderClient(curClient.getClientName());
     order.setOrderClientId(curClient.getClientId());
@@ -803,6 +940,32 @@ void MainWindow::on_addToCartButton_clicked()
     productsInCart.append(order);
     QMessageBox::information(nullptr, "prompt", "添加成功!即将跳转至购物车!");
     on_shoppingCartButton_clicked();
+}
+
+void MainWindow::initCartAndHistory() {
+    // 初始化购物车和浏览记录
+    QFile file(QString("%1/data/config-%2.json").arg(PATH, QString::number(curClient.getClientId())));
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&file);
+        QString jsonString = in.readAll();
+        file.close();
+
+        // 解析JSON字符串
+        QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
+        QJsonObject jsonObj = jsonDoc.object();
+
+        QList<Order> orders(Order::fromJsonObjectArray(jsonObj));
+        for (const Order& order : orders) {
+            productsInCart.append(order);
+        }
+
+        QList<Product> products(Product::fromJsonObjectArray(jsonObj));
+        for (const Product& product : products) {
+            pickedProducts.append(product);
+        }
+    } else {
+        qDebug() << "Failed to open file for reading.";
+    }
 }
 
 void MainWindow::on_purchaseButton2_clicked()
@@ -836,7 +999,6 @@ void MainWindow::on_clearButton_clicked()
     on_shoppingCartButton_clicked();
 }
 
-
 void MainWindow::on_avatarButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "选择头像文件", "", "Images (*.png *.jpg *.bmp)");
@@ -859,3 +1021,80 @@ void MainWindow::on_avatarButton_clicked()
 
     curAvatar = fileName;
 }
+
+void MainWindow::on_withDrawButton_clicked()
+{
+    QList<Order> toWithDrawOrders;
+    for (int i = 0; i < model->rowCount(); i++) {
+        QModelIndex index = model->index(i, 0);
+        QVariant checkState = model->data(index, Qt::CheckStateRole);
+        if (checkState.canConvert<Qt::CheckState>() && (checkState.value<Qt::CheckState>() == Qt::Checked)) {
+            Order order;
+            order.setOrderId(model->data(index).toInt());
+            toWithDrawOrders.append(order);
+        }
+    }
+
+    QJsonObject jsonObj(Order::toJsonObjectArray(toWithDrawOrders));
+    jsonObj["signal"] = QString::number(withDrawProduct);
+    QByteArray jsonString = QJsonDocument(jsonObj).toJson();
+    // 发送消息到服务器
+    socket->sendMessageToServer(jsonString);
+
+}
+
+
+void MainWindow::on_sortButton1_clicked()
+{
+    ui->resultListWidget->clear();
+
+    sort(resultProducts.begin(), resultProducts.end(), Product::cmpBySales);
+
+    if (sortBtn1Clicks & 1)
+        reverse(resultProducts.begin(), resultProducts.end());
+
+    for (const Product& tmp : resultProducts) {
+        QString demo = QString("    商品编号: %1\n    商品名称: %2\n    商品价格: ￥%3\n    折后价: ￥%4\n    商品剩余量: %5\n").arg(QString::number(tmp.getProductId()), tmp.getProductName(), QString::number(tmp.getProductPrice()), QString::number((int)(tmp.getProductPrice() * tmp.getProductDiscount())), QString::number(tmp.getProductNum()));
+        QListWidgetItem *itemProduct = new QListWidgetItem(QIcon(tmp.getProductImage()), demo);
+        ui->resultListWidget->addItem(itemProduct);
+        ui->resultListWidget->addItem("");
+    }
+
+    sortBtn1Clicks++;
+}
+
+void MainWindow::on_sortButton2_clicked()
+{
+    ui->resultListWidget->clear();
+
+    sort(resultProducts.begin(), resultProducts.end(), Product::cmpByPrice);
+
+    if (sortBtn2Clicks & 1)
+        reverse(resultProducts.begin(), resultProducts.end());
+
+    for (const Product& tmp : resultProducts) {
+        QString demo = QString("    商品编号: %1\n    商品名称: %2\n    商品价格: ￥%3\n    折后价: ￥%4\n    商品剩余量: %5\n").arg(QString::number(tmp.getProductId()), tmp.getProductName(), QString::number(tmp.getProductPrice()), QString::number((int)(tmp.getProductPrice() * tmp.getProductDiscount())), QString::number(tmp.getProductNum()));
+        QListWidgetItem *itemProduct = new QListWidgetItem(QIcon(tmp.getProductImage()), demo);
+        ui->resultListWidget->addItem(itemProduct);
+        ui->resultListWidget->addItem("");
+    }
+
+    sortBtn2Clicks++;
+}
+
+
+void MainWindow::on_historyButton_clicked()
+{
+    ui->historyListWidget->clear();
+
+    for (const Product& tmp : pickedProducts) {
+        ui->historyListWidget->addItem(tmp.getPickedTime().toString("yyyy-MM-dd hh:mm:ss"));
+        QString demo = QString("    商品编号: %1\n    商品名称: %2\n    商品价格: ￥%3\n    折后价: ￥%4\n    商品剩余量: %5\n").arg(QString::number(tmp.getProductId()), tmp.getProductName(), QString::number(tmp.getProductPrice()), QString::number((int)(tmp.getProductPrice() * tmp.getProductDiscount())), QString::number(tmp.getProductNum()));
+        QListWidgetItem *itemProduct = new QListWidgetItem(QIcon(tmp.getProductImage()), demo);
+        ui->historyListWidget->addItem(itemProduct);
+        ui->historyListWidget->addItem("");
+    }
+
+    on_tabWidget_tabBarClicked(HistoryTab);
+}
+

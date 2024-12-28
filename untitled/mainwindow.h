@@ -1,6 +1,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMainWindow>
 #include <QMainWindow>
 #include <QLabel>
 #include <QTimer>

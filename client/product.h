@@ -14,9 +14,14 @@ public:
     Product();
     Product(int productId, QString productName, int productPrice, int productNum, int productBuyNum, QString productImage, float productDiscount);
 
-    bool operator<(const Product &other) const {
+    static bool cmpBySales(const Product &a, const Product &b) {
         // 基于销量比较
-        return this->productBuyNum > other.productBuyNum;
+        return a.productBuyNum > b.productBuyNum;
+    }
+
+    static bool cmpByPrice(const Product &a, const Product &b) {
+        // 基于价格比较
+        return a.productPrice > b.productPrice;
     }
 
     static QJsonObject toJsonObject(const Product& product);
@@ -48,6 +53,9 @@ public:
     int getProductId() const;
     void setProductId(int value);
 
+    QDateTime getPickedTime() const;
+    void setPickedTime(const QDateTime time);
+
 private:
     int productId;
     QString productName;
@@ -56,6 +64,7 @@ private:
     int productBuyNum;
     QString productImage;
     float productDiscount;
+    QDateTime pickedTime;
 };
 
 #endif // PRODUCT_H

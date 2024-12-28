@@ -1,0 +1,108 @@
+{
+    "orders": [
+        {
+            "order_check": 0,
+            "order_client": "donk",
+            "order_client_id": 27,
+            "order_cost": "29999",
+            "order_hide": 0,
+            "order_id": 0,
+            "order_product_id": 44,
+            "order_product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/vision-pro.jpg",
+            "order_product_name": "Apple Vision Pro",
+            "order_product_num": 1,
+            "order_product_style": "",
+            "order_time": ""
+        },
+        {
+            "order_check": 0,
+            "order_client": "donk",
+            "order_client_id": 27,
+            "order_cost": "7999",
+            "order_hide": 0,
+            "order_id": 0,
+            "order_product_id": 25,
+            "order_product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-16-pro.jpg",
+            "order_product_name": "iPhone 16 Pro",
+            "order_product_num": 1,
+            "order_product_style": "",
+            "order_time": ""
+        },
+        {
+            "order_check": 0,
+            "order_client": "donk",
+            "order_client_id": 27,
+            "order_cost": "318",
+            "order_hide": 0,
+            "order_id": 0,
+            "order_product_id": 47,
+            "order_product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/HRTQ2.png",
+            "order_product_name": "OtterBox Lumen 系列 MagSafe 保护壳",
+            "order_product_num": 1,
+            "order_product_style": "",
+            "order_time": ""
+        }
+    ],
+    "products": [
+        {
+            "product_buy_num": 349,
+            "product_discount": 1,
+            "product_id": 35,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-se.jpg",
+            "product_name": "iPhone SE",
+            "product_num": 48948,
+            "product_picked_time": "Sat Dec 28 18:18:55 2024",
+            "product_price": 3499
+        },
+        {
+            "product_buy_num": 329,
+            "product_discount": 1,
+            "product_id": 36,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad.jpg",
+            "product_name": "iPad",
+            "product_num": 13250,
+            "product_picked_time": "Sat Dec 28 18:18:57 2024",
+            "product_price": 2799
+        },
+        {
+            "product_buy_num": -7,
+            "product_discount": 1,
+            "product_id": 44,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/vision-pro.jpg",
+            "product_name": "Apple Vision Pro",
+            "product_num": -2,
+            "product_picked_time": "Sat Dec 28 18:19:00 2024",
+            "product_price": 29999
+        },
+        {
+            "product_buy_num": 1,
+            "product_discount": 1,
+            "product_id": 49,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/911-gt3.jpg",
+            "product_name": "Porsche 911 GT3",
+            "product_num": 565,
+            "product_picked_time": "Sat Dec 28 18:19:05 2024",
+            "product_price": 2268000
+        },
+        {
+            "product_buy_num": 4,
+            "product_discount": 1,
+            "product_id": 25,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-16-pro.jpg",
+            "product_name": "iPhone 16 Pro",
+            "product_num": 65153,
+            "product_picked_time": "Sat Dec 28 18:19:11 2024",
+            "product_price": 7999
+        },
+        {
+            "product_buy_num": 13,
+            "product_discount": 0.800000011920929,
+            "product_id": 47,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/HRTQ2.png",
+            "product_name": "OtterBox Lumen 系列 MagSafe 保护壳",
+            "product_num": 6158,
+            "product_picked_time": "Sat Dec 28 18:19:17 2024",
+            "product_price": 398
+        }
+    ]
+}

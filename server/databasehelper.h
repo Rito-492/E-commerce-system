@@ -60,7 +60,11 @@ public:
 
     QList<Order> getOrderListByInfo(const Client client);
 
+    QList<Order> getOrderListByProduct(const Product product);
+
     bool addOrder(const Order order);
+
+    bool updateOrderByInfo(const Order& order);
 
     //QList<Order> getOrderLikeList(const QString& mess);
 

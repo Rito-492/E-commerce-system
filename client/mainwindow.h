@@ -11,6 +11,7 @@
 
 #include <algorithm>
 #include <QApplication>
+#include <QFile>
 #include <QFileDialog>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -33,6 +34,7 @@
 #include <QTabWidget>
 #include <QTabBar>
 #include <QTextEdit>
+#include <QTextStream>
 #include <QThread>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -53,6 +55,7 @@
 #define updateProfile 1000011
 #define getOrders 1000012
 #define getAllProducts 1000013
+#define withDrawProduct 1000014
 
 using namespace std;
 
@@ -64,6 +67,9 @@ const int SupportTab = 4;
 const int ProfileTab = 5;
 const int CommodityTab = 6;
 const int PurchaseTab = 7;
+const int HistoryTab = 8;
+
+const QString PATH = "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/client";
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -148,11 +154,21 @@ private slots:
 
     void on_avatarButton_clicked();
 
+    void on_withDrawButton_clicked();
+
+    void on_sortButton1_clicked();
+
+    void on_sortButton2_clicked();
+
+    void on_historyButton_clicked();
+
 private:
 
     void init();
 
     void setConnections();
+
+    void initCartAndHistory();
 
     Ui::MainWindow *ui;
 
@@ -185,6 +201,13 @@ private:
 
     // 所有商品
     QList<Product> allProducts;
+
+    // 浏览记录
+    QList<Product> pickedProducts;
+
+    int sortBtn1Clicks;
+
+    int sortBtn2Clicks;
 
     // 当前展示的商品
     Product curProduct;
