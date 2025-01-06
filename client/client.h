@@ -18,6 +18,7 @@ private:
     QString clientPwd;
     int clientBought;
     QString clientImage;
+    QString clientAddress;
 
 public:
     Client();
@@ -35,6 +36,7 @@ public:
     void setClientPwd(QString clientPwd);
     void setClientBought(int clientBought);
     void setClientImage(QString clientImage);
+    void setClientAddress(QString clientAddress);
 
     QString getClientName() const;
     int getClientId() const;
@@ -43,6 +45,7 @@ public:
     QString getClientPwd() const;
     int getClientBought() const;
     QString getClientImage() const;
+    QString getClientAddress() const;
 };
 
 #endif // CLIENT_H

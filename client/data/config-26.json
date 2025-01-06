@@ -1,0 +1,76 @@
+{
+    "orders": [
+    ],
+    "products": [
+        {
+            "product_buy_num": 349,
+            "product_discount": 1,
+            "product_id": 35,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-se.jpg",
+            "product_name": "iPhone SE",
+            "product_num": 48948,
+            "product_picked_time": "Sat Jan 4 23:50:30 2025",
+            "product_price": 3499
+        },
+        {
+            "product_buy_num": 770,
+            "product_discount": 1,
+            "product_id": 37,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad-pro.jpg",
+            "product_name": "iPad Pro",
+            "product_num": 2434,
+            "product_picked_time": "Sat Jan 4 23:50:37 2025",
+            "product_price": 8099
+        },
+        {
+            "product_buy_num": 6,
+            "product_discount": 1,
+            "product_id": 29,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/airpods-max.jpg",
+            "product_name": "AirPods Max",
+            "product_num": 3993,
+            "product_picked_time": "Sat Jan 4 23:50:42 2025",
+            "product_price": 3999
+        },
+        {
+            "product_buy_num": 8,
+            "product_discount": 1,
+            "product_id": 26,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad-air.jpg",
+            "product_name": "iPad Air",
+            "product_num": 8880,
+            "product_picked_time": "Sat Jan 4 23:50:46 2025",
+            "product_price": 4799
+        },
+        {
+            "product_buy_num": 0,
+            "product_discount": 0.8123829960823059,
+            "product_id": 55,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/h525 (2).png",
+            "product_name": "ROG 棱镜2",
+            "product_num": 16511,
+            "product_picked_time": "Sat Jan 4 23:50:54 2025",
+            "product_price": 1599
+        },
+        {
+            "product_buy_num": 0,
+            "product_discount": 0.7997999787330627,
+            "product_id": 54,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/h525 (1).png",
+            "product_name": "ROG月刃2 ACE",
+            "product_num": 4615,
+            "product_picked_time": "Sat Jan 4 23:50:58 2025",
+            "product_price": 999
+        },
+        {
+            "product_buy_num": 0,
+            "product_discount": 1,
+            "product_id": 57,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/h732 (1).png",
+            "product_name": "ROG魔霸7 Plus",
+            "product_num": 8753,
+            "product_picked_time": "Sat Jan 4 23:51:02 2025",
+            "product_price": 10999
+        }
+    ]
+}

@@ -79,6 +79,11 @@ QString Client::getClientImage() const
     return clientImage;
 }
 
+QString Client::getClientAddress() const
+{
+    return clientAddress;
+}
+
 void Client::setClientName(QString clientName)
 {
     this->clientName = clientName;
@@ -112,4 +117,9 @@ void Client::setClientBought(int clientBought)
 void Client::setClientImage(QString clientImage)
 {
     this->clientImage = clientImage;
+}
+
+void Client::setClientAddress(QString clientAddress)
+{
+    this->clientAddress = clientAddress;
 }

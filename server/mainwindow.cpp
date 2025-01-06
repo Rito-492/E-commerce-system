@@ -851,6 +851,7 @@ void MainWindow::on_removeProductButton_clicked()
         QMessageBox::warning(nullptr, "Warning", "添加商品时无法删除!");
         return ;
     }
+
     if (QMessageBox::question(nullptr, "Prompt", "确定要删除该商品?", QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes) {
         if (dbhlp->deleteProductByInfo(curProduct)) {
             QMessageBox::information(nullptr, "Prompt", "删除成功!");
@@ -943,6 +944,9 @@ void MainWindow::on_sortButton22_clicked()
 
 void MainWindow::on_analyseButton_clicked()
 {
+    if (curProduct.getProductId() == 0) {
+        QMessageBox::warning(nullptr, "prompt", "添加商品时无法进行分析!");
+    }
 
     QList<Order> orders = dbhlp->getOrderListByProduct(curProduct);
 
@@ -968,6 +972,8 @@ void MainWindow::on_analyseButton_clicked()
         sales[orders[i].getOrderTime()] += orders[i].getOrderProductNum();
         if (orders[i].getOrderHide() == 1)
             withdraws[orders[i].getOrderTime()] += orders[i].getOrderProductNum();
+        else
+            withdraws[orders[i].getOrderTime()] += 0;
         i++;
     }
 

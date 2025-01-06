@@ -66,18 +66,8 @@ public:
 
     bool updateOrderByInfo(const Order& order);
 
-    //QList<Order> getOrderLikeList(const QString& mess);
-
-    //QList<Order> getOrderListHistory();
-
-    //bool updateHistory(const Order& order);
-
-    //bool deleteShoppingCart(const Order& order);
-
     // 商品表的增删改查
     QList<Product>  getProductList();
-
-    //QList<Product>  getProductListByInfo(const Product& product);
 
     int addProduct(const Product& product);
 

@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , loginWindow(nullptr)
     , carousel(nullptr)
     , theme(0)
+    , echoMode(false)
 {
     // 设置固定的窗口大小
     this->setFixedSize(1000,750);
@@ -47,20 +48,20 @@ MainWindow::~MainWindow()
 {
     // 创建一个QJsonObject
     QJsonObject jsonObj;
-    QJsonArray jsonArray1;
 
+    QJsonArray jsonArray1;
     for (const Order& order : productsInCart) {
         jsonArray1.append(Order::toJsonObject(order));
     }
-
     jsonObj["orders"] = jsonArray1;
 
     QJsonArray jsonArray2;
     for (const Product& product : pickedProducts) {
         jsonArray2.append(Product::toJsonObject(product));
     }
-
     jsonObj["products"] = jsonArray2;
+
+    jsonObj["address"] = curClient.getClientAddress();
 
     // 将QJsonObject封装到QJsonDocument中
     QJsonDocument jsonDoc(jsonObj);
@@ -214,6 +215,7 @@ void MainWindow::dealMessage(const QByteArray message) {
 
         if (jsonObj["isValid"].toBool()) {
             curClient = Client::fromJsonObject(jsonObj);
+            curClient.setClientAddress(ui->clientAddressLineEdit->text());
             QMessageBox::information(nullptr, "Prompt", "保存成功！");
         } else {
             QMessageBox::information(nullptr, "Prompt", "保存失败！");
@@ -445,9 +447,10 @@ void MainWindow::on_profileButton_clicked()
     ui->userIdShowLabel->setText(QString::number(curClient.getClientId()));
     ui->userNameLineEdit->setText(curClient.getClientName());
     ui->phoneLineEdit->setText(curClient.getClientPhone());
-    ui->boughtShowLabel->setText(QString::number(curClient.getClientBought()));
+    ui->clientAddressLineEdit->setText(curClient.getClientAddress());
     ui->signTimeShowLabel->setText(curClient.getClientSignTime().toString("yyyy-MM-dd"));
     ui->passWordLineEdit->setText(curClient.getClientPwd());
+    ui->passWordLineEdit->setEchoMode(QLineEdit::Password);
 
     on_tabWidget_tabBarClicked(ProfileTab);
 }
@@ -468,11 +471,10 @@ void MainWindow::on_saveButton_clicked()
     }
 
     Client tmp(curClient);
-    QWidget *profileTab = ui->tabWidget->widget(ProfileTab);
-    tmp.setClientName(profileTab->findChild<QLineEdit *>("userNameLineEdit")->text());
-    tmp.setClientPhone(profileTab->findChild<QLineEdit *>("phoneLineEdit")->text());
+    tmp.setClientName(ui->userNameLineEdit->text());
+    tmp.setClientPhone(ui->phoneLineEdit->text());
     tmp.setClientImage(curAvatar);
-    tmp.setClientPwd(profileTab->findChild<QLineEdit *>("passWordLineEdit")->text());
+    tmp.setClientPwd(ui->passWordLineEdit->text());
 
     QJsonObject jsonObj(Client::toJsonObject(tmp));
     jsonObj["signal"] = QString::number(updateProfile);
@@ -572,7 +574,7 @@ void MainWindow::on_themeButton_clicked()
             "}"
         );
         break;
-    case 1:
+    case 2:
         this->setStyleSheet(
             "QWidget#centralwidget {"
             "background-color: rgb(254, 255, 187);"
@@ -621,7 +623,7 @@ void MainWindow::on_themeButton_clicked()
             "}"
         );
         break;
-    case 2:
+    case 3:
         this->setStyleSheet(
             "QWidget#centralwidget {"
             "background-color: rgb(249, 169, 255);"
@@ -671,7 +673,7 @@ void MainWindow::on_themeButton_clicked()
 
         );
         break;
-    case 3:
+    case 1:
         this->setStyleSheet(
             "QWidget#centralwidget {"
             "background-color: rgb(19, 19, 26);"
@@ -866,6 +868,7 @@ void MainWindow::on_purchaseButton_clicked()
         order.setOrderProductName(curProduct.getProductName());
         order.setOrderProductId(curProduct.getProductId());
         order.setOrderProductImage(curProduct.getProductImage());
+        if (ui->spinBox->value() <= curProduct.getProductNum())
         order.setOrderProductNum(ui->spinBox->value());
         order.setOrderCost(ui->subtotalShowLabel->text());
         toPayOrders.clear();
@@ -883,6 +886,7 @@ void MainWindow::on_purchaseButton_clicked()
 
     ui->nameLineEdit->setText(curClient.getClientName());
     ui->phoneNumLineEdit->setText(curClient.getClientPhone());
+    ui->addressLineEdit->setText(curClient.getClientAddress());
     ui->totalLabel->setText(QString::number(total));
 
     on_tabWidget_tabBarClicked(PurchaseTab);
@@ -935,7 +939,8 @@ void MainWindow::on_addToCartButton_clicked()
     order.setOrderProductName(curProduct.getProductName());
     order.setOrderProductId(curProduct.getProductId());
     order.setOrderProductImage(curProduct.getProductImage());
-    order.setOrderProductNum(ui->spinBox->value());
+    if (ui->spinBox->value() <= curProduct.getProductNum())
+        order.setOrderProductNum(ui->spinBox->value());
     order.setOrderCost(ui->subtotalShowLabel->text());
     productsInCart.append(order);
     QMessageBox::information(nullptr, "prompt", "添加成功!即将跳转至购物车!");
@@ -953,6 +958,8 @@ void MainWindow::initCartAndHistory() {
         // 解析JSON字符串
         QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonString.toUtf8());
         QJsonObject jsonObj = jsonDoc.object();
+
+        curClient.setClientAddress(jsonObj["address"].toString());
 
         QList<Order> orders(Order::fromJsonObjectArray(jsonObj));
         for (const Order& order : orders) {
@@ -1095,6 +1102,21 @@ void MainWindow::on_historyButton_clicked()
         ui->historyListWidget->addItem("");
     }
 
+    // 使listWidget滚动到底部
+    ui->historyListWidget->scrollToBottom();
+
     on_tabWidget_tabBarClicked(HistoryTab);
 }
 
+
+void MainWindow::on_echoModePushButton_clicked()
+{
+    if (echoMode) {
+        ui->echoModePushButton->setIcon(QIcon(":/icons/NoPassword.png"));
+        ui->passWordLineEdit->setEchoMode(QLineEdit::Password);
+    } else {
+        ui->echoModePushButton->setIcon(QIcon(":/icons/Password.png"));
+        ui->passWordLineEdit->setEchoMode(QLineEdit::Normal);
+    }
+    echoMode = !echoMode;
+}

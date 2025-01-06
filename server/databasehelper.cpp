@@ -372,31 +372,6 @@ bool DatabaseHelper::updateClient(const Client client)
     return updateRecord("`client`", record, whereFields);
 }
 
-// QList<Client *> DatabaseHelper::getClientLikeList(QString mess)
-// {
-//     ClientList.clear();
-//     struct soap select_soap;
-//     soap_init(&select_soap);
-//     soap_set_mode(&select_soap,SOAP_C_UTFSTRING);
-//     lkf2__getClientLikeList res;
-//     lkf2__getClientLikeListResponse rep;
-//     res.arg0 = (StringTrans::QString2string(mess));
-//     int result = soap_call___lkf1__getClientLikeList(&select_soap,NULL,NULL,&res,rep);
-//     if(!result)
-//     {
-//         //        qDebug()<<"查询成功";
-//         std::vector<lkf2__client*> clientList = rep.return_;
-//         for(int i=0 ;i < (int)clientList.size();i++ )
-//         {
-//             Client* client = transObjects::transClient(clientList[i]);
-//             ClientList.append(client);
-//             //            qDebug()<<client->getClientName();
-//         }
-//     }
-//     return ClientList;
-// }
-
-
 QList<Order> DatabaseHelper::getOrderList()
 {
     OrderList.clear();
@@ -490,8 +465,10 @@ bool DatabaseHelper::addOrder(const Order order)
     Product product(getProductById(order.getOrderProductId()));
     int num = product.getProductNum();
     int buy_num = product.getProductBuyNum();
-    product.setProductNum(num - order.getOrderProductNum());
-    product.setProductBuyNum(buy_num + order.getOrderProductNum());
+    if (num >= order.getOrderProductNum()) {
+        product.setProductNum(num - order.getOrderProductNum());
+        product.setProductBuyNum(buy_num + order.getOrderProductNum());
+    }
     updateProductByInfo(product);
 
     QVariantMap record;

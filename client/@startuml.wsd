@@ -1,0 +1,270 @@
+@startuml
+
+' class SearchLine {
+'     .. Fields ..
+'     - Ui::SearchLine *ui
+
+'     .. Methods ..
+'     + SearchLine(QWidget *)
+'     + ~SearchLine()
+'     + void returnPressed()
+'     - void on_searchButton_clicked()
+' }
+
+' class TcpSocket {
+'     .. Fields ..
+'     - QMutex mutex
+
+'     .. Methods ..
+'     + TcpSocket(QObject *)
+'     + void sendMessageToServer(QByteArray)
+'     + void receivedMessage()
+'     + void sendAByteArray(const QByteArray)
+' }
+
+' class MainWindow {
+'     .. Fields ..
+'     - Ui::MainWindow *ui
+'     - Carousel *carousel
+'     - SearchLine *searchLine
+'     - QPoint m_dragPosition
+'     - bool isLogging
+'     - bool isLogged
+'     - Login *loginWindow
+'     - Client curClient
+'     - QString curAvatar
+'     - QList<Product> resultProducts
+'     - QList<Product> allProducts
+'     - QList<Product> pickedProducts
+'     - int sortBtn1Clicks
+'     - int sortBtn2Clicks
+'     - bool echoMode
+'     - Product curProduct
+'     - int theme
+'     - QList<Order> toPayOrders
+'     - QList<Order> productsInCart
+'     - QStandardItemModel *model
+'     - Order curOrder
+'     - stack<int> lastTab
+'     - TcpSocket *socket
+
+'     .. Methods ..
+'     + explicit MainWindow(QWidget*)
+'     + ~MainWindow()
+'     # void paintEvent(QPaintEvent*)
+'     # void mouseMoveEvent(QMouseEvent*)
+'     # void mousePressEvent(QMouseEvent*)
+'     + void loginSuccessfully()
+'     + void signinSuccessfully()
+'     - void dealMessage(const QByteArray)
+'     - void on_minimizeButton_clicked()
+'     - void on_closeButton_clicked()
+'     - void on_loginButton_clicked()
+'     - void loginNow(const QString, const QString)
+'     - void signinNow(const QString, const QString)
+'     - void on_profileButton_clicked()
+'     - void on_tabWidget_tabBarClicked(int)
+'     - void on_saveButton_clicked()
+'     - void on_sendButton_clicked()
+'     - void on_themeButton_clicked()
+'     - void on_shoppingRecordButton_clicked()
+'     - void on_refreshButton_clicked()
+'     - void on_searchButton_clicked()
+'     - void on_supportButton_clicked()
+'     - void show_commodity()
+'     - void on_spinBox_valueChanged(int)
+'     - void on_returnButton_clicked()
+'     - void on_iconButton_clicked()
+'     - void on_homeButton_clicked()
+'     - void on_purchaseButton_clicked()
+'     - void on_payButton_clicked()
+'     - void on_shoppingCartButton_clicked()
+'     - void on_addToCartButton_clicked()
+'     - void on_purchaseButton2_clicked()
+'     - void on_clearButton_clicked()
+'     - void on_avatarButton_clicked()
+'     - void on_withDrawButton_clicked()
+'     - void on_sortButton1_clicked()
+'     - void on_sortButton2_clicked()
+'     - void on_historyButton_clicked()
+'     - void on_echoModePushButton_clicked()
+'     - void init()
+'     - void setConnections()
+'     - void initCartAndHistory()
+' }
+
+' class Login {
+'     .. Fields ..
+'     - Ui::Login *ui
+'     - static bool isLogging
+
+'     .. Methods ..
+'     + Login(QWidget *)
+'     + ~Login()
+'     + void loginNow(const QString, const QString)
+'     + void signinNow(const QString, const QString)
+'     + void loginSuccessfully()
+'     + void signinSuccessfully()
+'     - void on_loginButton_clicked()
+'     - void on_signinButton_clicked()
+' }
+
+' class Carousel {
+'     .. Fields ..
+'     + Carousel(const QVector<QString>, QWidget *)
+'     + int maxImages 
+'     - const int width
+'     - const int height
+'     - QVector<QPixmap> images
+'     - ClickableLabel *imageLabel
+'     - QPushButton *nextButton
+'     - QPushButton *prevButton
+'     - QVector<QPushButton *> dots
+'     - QTimer *timer
+'     - int currentImageIndex
+
+'     .. Methods ..
+'     + void imageClicked(const int)
+'     - void nextImage()
+'     - void prevImage()
+'     - void jumpToImage(int)
+'     - void updateDots()
+' }
+
+' class ClickableLabel {
+'     .. Methods ..
+'     + ClickableLabel(QWidget *)
+'     # void mousePressEvent(QMouseEvent *)
+'     + void clicked()
+' }
+
+' class Client {
+'     .. Fields ..
+'     - QString clientName
+'     - int clientId
+'     - QString clientPhone
+'     - QDateTime clientSignTime
+'     - QString clientPwd
+'     - int clientBought
+'     - QString clientImage
+'     - QString clientAddress
+
+'     .. Methods ..
+'     + Client()
+'     + Client(QString, int, QString, QDateTime, QString, int, QString)
+'     + static QJsonObject toJsonObject(const Client)
+'     + static Client fromJsonObject(const QJsonObject)
+'     + void setClientName(QString clientName)
+'     + void setClientId(int clientId)
+'     + void setClientPhone(QString clientPhone)
+'     + void setClientSignTime(QDateTime clientSignTime)
+'     + void setClientPwd(QString clientPwd)
+'     + void setClientBought(int clientBought)
+'     + void setClientImage(QString clientImage)
+'     + void setClientAddress(QString clientAddress)
+
+'     + QString getClientName() const
+'     + int getClientId() const
+'     + QString getClientPhone() const
+'     + QDateTime getClientSignTime() const;
+'     + QString getClientPwd() const
+'     + int getClientBought() const
+'     + QString getClientImage() const
+'     + QString getClientAddress() const
+' }
+
+' class Order {
+'     .. Fields ..
+'     - int orderId
+'     - QString orderProductName
+'     - int orderProductNum
+'     - QString orderProductStyle
+'     - int orderProductId
+'     - QString orderProductImage
+'     - QString orderCost
+'     - QDateTime orderTime
+'     - QString orderClient
+'     - int orderClientId
+'     - int orderCheck
+'     - int orderHide
+
+'     .. Methods ..
+'     + Order()
+'     + Order(int, QString, int, QString, int, QString, QDateTime, QString, int, int, int)
+'     + static QJsonObject toJsonObject(const Order)
+'     + static Order fromJsonObject(const QJsonObject)
+'     + static QJsonObject toJsonObjectArray(const QList<Order>)
+'     + static QList<Order> fromJsonObjectArray(const QJsonObject)
+'     + int getOrderHide() const
+'     + void setOrderHide(int)
+'     + int getOrderCheck() const
+'     + void setOrderCheck(int)
+'     + int getOrderClientId() const
+'     + void setOrderClientId(int)
+'     + QString getOrderClient() const
+'     + void setOrderClient(const QString)
+'     + QDateTime getOrderTime() const
+'     + void setOrderTime(const QDateTime)
+'     + QString getOrderCost() const
+'     + void setOrderCost(const QString)
+'     + int getOrderProductId() const
+'     + void setOrderProductId(int)
+'     + QString getOrderProductStyle() const
+'     + void setOrderProductStyle(const QString)
+'     + int getOrderProductNum() const
+'     + void setOrderProductNum(int)
+'     + QString getOrderProductName() const
+'     + void setOrderProductName(const QString)
+'     + QString getOrderProductImage() const
+'     + void setOrderProductImage(const QString)
+'     + int getOrderId() const
+'     + void setOrderId(int value)
+' }
+
+' class Product {
+'     .. Fields ..
+'     - int productId
+'     - QString productName
+'     - int productPrice
+'     - int productNum
+'     - int productBuyNum
+'     - QString productImage
+'     - float productDiscount
+'     - QDateTime pickedTime
+
+'     .. Methods ..
+'     + Product()
+'     + Product(int, QString, int, int, int , QString,float)
+'     + static bool cmpBySales(const Product, const Product)
+'     + static bool cmpByPrice(const Product, const Product)
+'     + static QJsonObject toJsonObject(const Product)
+'     + static Product fromJsonObject(const QJsonObject)
+'     + static QJsonObject toJsonObjectArray(const QList<Product>)
+'     + static QList<Product> fromJsonObjectArray(const QJsonObject)
+'     + float getProductDiscount() const
+'     + void setProductDiscount(float)
+'     + QString getProductImage() const
+'     + void setProductImage(const QString)
+'     + int getProductBuyNum() const
+'     + void setProductBuyNum(int)
+'     + int getProductNum() const
+'     + void setProductNum(int)
+'     + int getProductPrice() const
+'     + void setProductPrice(int value)
+'     + QString getProductName() const
+'     + void setProductName(const QString)
+'     + int getProductId() const
+'     + void setProductId(int)
+'     + QDateTime getPickedTime() const
+'     + void setPickedTime(const QDateTime)
+' }
+
+' MainWindow --|> SearchLine
+' MainWindow --|> TcpSocket
+' MainWindow --|> ClickableLabel
+' MainWindow --|> Carousel
+' MainWindow --|> Login
+
+
+
+@enduml

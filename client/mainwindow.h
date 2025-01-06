@@ -162,6 +162,8 @@ private slots:
 
     void on_historyButton_clicked();
 
+    void on_echoModePushButton_clicked();
+
 private:
 
     void init();
@@ -208,6 +210,8 @@ private:
     int sortBtn1Clicks;
 
     int sortBtn2Clicks;
+
+    bool echoMode;
 
     // 当前展示的商品
     Product curProduct;
