@@ -1,0 +1,81 @@
+{
+    "address": "",
+    "orders": [
+        {
+            "order_check": 0,
+            "order_client": "alan",
+            "order_client_id": 31,
+            "order_cost": "6998",
+            "order_hide": 0,
+            "order_id": 0,
+            "order_product_id": 35,
+            "order_product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-se.jpg",
+            "order_product_name": "iPhone SE",
+            "order_product_num": 2,
+            "order_product_style": "",
+            "order_time": ""
+        }
+    ],
+    "products": [
+        {
+            "product_buy_num": 353,
+            "product_discount": 1,
+            "product_id": 35,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-se.jpg",
+            "product_name": "iPhone SE",
+            "product_num": 48944,
+            "product_picked_time": "Tue Jan 7 09:46:26 2025",
+            "product_price": 3499
+        },
+        {
+            "product_buy_num": 579,
+            "product_discount": 1,
+            "product_id": 39,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/mba13.jpg",
+            "product_name": "MacBook Air 13",
+            "product_num": 895434,
+            "product_picked_time": "Tue Jan 7 09:47:04 2025",
+            "product_price": 8199
+        },
+        {
+            "product_buy_num": 333,
+            "product_discount": 1,
+            "product_id": 36,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/ipad.jpg",
+            "product_name": "iPad",
+            "product_num": 13246,
+            "product_picked_time": "Tue Jan 7 09:47:09 2025",
+            "product_price": 2799
+        },
+        {
+            "product_buy_num": 356,
+            "product_discount": 1,
+            "product_id": 35,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-se.jpg",
+            "product_name": "iPhone SE",
+            "product_num": 48941,
+            "product_picked_time": "Tue Jan 7 09:47:36 2025",
+            "product_price": 3499
+        },
+        {
+            "product_buy_num": 4,
+            "product_discount": 1,
+            "product_id": 25,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-16-pro.jpg",
+            "product_name": "iPhone 16 Pro",
+            "product_num": 65153,
+            "product_picked_time": "Tue Jan 7 09:49:09 2025",
+            "product_price": 7999
+        },
+        {
+            "product_buy_num": 5,
+            "product_discount": 1,
+            "product_id": 25,
+            "product_image": "C:/Users/Rito-492/Documents/Study/OOP/E-commerce-system/imagebase/iphone-16-pro.jpg",
+            "product_name": "iPhone 16 Pro",
+            "product_num": 65152,
+            "product_picked_time": "Tue Jan 7 09:49:25 2025",
+            "product_price": 7999
+        }
+    ]
+}

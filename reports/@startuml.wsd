@@ -265,6 +265,147 @@
 ' MainWindow --|> Carousel
 ' MainWindow --|> Login
 
+' class DatabaseHelper {
+'     .. Fields ..
+'     - static QString databaseDriver
+'     - QSqlDatabase db
+'     - QSqlQuery result
+'     - QList<Client> ClientList
+'     - QList<Product> ProductList
+'     - QList<Order> OrderList
+'     - QList<QVariantMap> allRecords
+
+'     .. Methods ..
+'     + DatabaseHelper(QObject*)
+'     + ~DatabaseHelper()
+'     + bool connectToDatabase(const QString, const int, const QString, const QString, const QString)
+'     + bool executeQuery(const QString)
+'     + bool insertRecord(const QString, const QVariantMap)
+'     + bool updateRecord(const QString, const QVariantMap, const QVariantMap)
+'     + bool deleteRecord(const QString &tableName, const QVariantMap)
+'     + QList<QVariantMap> selectRecords(const QString &tableName, const QVariantMap)
+'     + QList<QVariantMap> getAllRecords(const QString &tableName)
+'     + bool isValidTableName(const QString)
+'     + QSqlDatabase& getDatabase()
+'     + QList<Client> getClientList()
+'     + Client getClientByNameAndPwd(const QString, const QString)
+'     + Client getClientById(const int)
+'     + bool insertClient(const Client)
+'     + bool deleteClientByNameAndPwd(const QString, const QString)
+'     + bool updateClient(const Client)
+'     + QList<Order> getOrderList()
+'     + QList<Order> getOrderListByInfo(const Client)
+'     + QList<Order> getOrderListByProduct(const Product)
+'     + bool addOrder(const Order)
+'     + bool updateOrderByInfo(const Order)
+'     + QList<Product>  getProductList()
+'     + int addProduct(const Product)
+'     + bool deleteProductByInfo(const Product)
+'     + bool updateProductByInfo(const Product)
+'     + Product getProductById(const int)
+'     + QList<Product> searchProductByName(const QString)
+' }
+
+' DatabaseHelper --|> Client
+' DatabaseHelper --|> Order
+' DatabaseHelper --|> Product
+
+class ThreadHandle {
+    .. Fields ..
+    - bool initFlag
+    - const static int MAXSIZE
+    - QHash<QThread*, int> ThreadPool
+    .. Methods ..
+    - ThreadHandle()
+    + ~ThreadHandle()
+    + static ThreadHandle &getClass()
+    + QThread *getThread()
+    + QThread *findThread()
+    + void removeThread(QThread*)
+    + void clear()
+}
+
+class MainWindow {
+    .. Fields ..
+    - Ui::MainWindow *ui
+    - QPoint m_dragPosition
+    - Product curProduct
+    - QList<Product> allProducts
+    - QList<Product> resultProducts
+    - QChartView *view
+    - QString curPic
+    - QStandardItemModel *model
+    - DatabaseHelper *dbhlp
+    - static qintptr AsocketDiscriptor
+    - QList<qintptr> socketDiscriptorList
+    - QMap<qintptr, QListWidget *> chatListWidgets
+    - QMap<int, qintptr> chatTab
+    - QMap<int, qintptr> sockets
+    - bool isUsedTab[ChatTabs]
+    - int chats
+    - int theme
+    - int sortBtn1Clicks
+    - int sortBtn2Clicks
+    - int sortBtn11Clicks
+    - int sortBtn22Clicks
+    - TcpServer *server
+    - QMutex mutex
+    - stack<int> lastTab
+
+    .. Methods ..
+    + MainWindow(QWidget *parent)
+    + ~MainWindow()
+    # void paintEvent(QPaintEvent *event)
+    # void mouseMoveEvent(QMouseEvent *event)
+    # void mousePressEvent(QMouseEvent *event)
+    + void dealMessage(QByteArray, qintptr)
+    - void on_minimizeButton_clicked()
+    - void on_closeButton_clicked()
+    - void on_searchButton_clicked()
+    - void on_tabWidget_tabBarClicked(int index)
+    - void on_returnButton_clicked()
+    - void on_refreshButton_clicked()
+    - void on_addPicButton_clicked()
+    - void edit_commodity()
+    - void on_saveProductButton_clicked()
+    - void on_addProductButton_clicked()
+    - void on_shoppingRecordButton_clicked()
+    - void on_supportButton_clicked()
+    - void on_homeButton_clicked()
+    - void on_iconButton_clicked()
+    - void on_sendButton_clicked()
+    - void on_removeProductButton_clicked()
+    - void on_themeButton_clicked()
+    - void on_sortButton1_clicked()
+    - void on_sortButton2_clicked()
+    - void on_sortButton11_clicked()
+    - void on_sortButton22_clicked()
+    - void on_analyseButton_clicked()
+    - void init()
+    - void setConnections()
+}
+
+class TcpServer {
+    .. Fields ..
+    - QMap<qintptr, TcpSocket*> socketPool
+    .. Methods ..
+    + TcpServer(QObject *, int)
+    + void incomingConnection(qintptr)
+    + void addChatRoom(qintptr socketDescriptor)
+    + void sglSendFromServer(const QByteArray, const qintptr&)
+    + void sglReceivedReomClient(const QByteArray, const qintptr&)
+    + void sendDisconnectedSignal(const qintptr)
+    + void dataSendFromServer(const QByteArray, const qintptr)
+    + void dataReceivedFromClient(const QByteArray, const qintptr)
+    + void disconnectChoice(const qintptr, const quint16, QThread *)
+}
+
+MainWindow --|> DatabaseHelper
+MainWindow --|> Client
+MainWindow --|> Product
+MainWindow --|> Order
+MainWindow --|> TcpServer
+MainWindow --|> ThreadHandle
 
 
 @enduml

@@ -478,7 +478,7 @@ bool DatabaseHelper::addOrder(const Order order)
     record["order_product_id"] = order.getOrderProductId();
     record["order_cost"] = order.getOrderCost();
     record["order_time"] = QDateTime::currentDateTime().toString("yyyy-MM-dd");
-    record["order_client"] = order.getOrderClient();
+    record["order_client"] = order.getOrderClient();·1
     record["order_client_id"] = order.getOrderClientId();
     record["order_check"] = order.getOrderCheck();
     record["order_hide"] = order.getOrderHide();

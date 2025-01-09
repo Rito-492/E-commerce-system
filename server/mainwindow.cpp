@@ -277,6 +277,20 @@ void MainWindow::dealMessage(QByteArray message, qintptr socketDescriptor)
         responseObj["signal"] = signal;
         responseObj["isValid"] = flag;
 
+        if (flag) {
+            for (int i = 0; i < ui->usersListWidget->count(); i++) {
+                QListWidgetItem *item = ui->usersListWidget->item(i);
+                QString str(item->text());
+                QString id;
+                for (int i = 0; i < str.length() && str[i] != ' '; i++)
+                    id += str[i];
+                if (id.toInt() == tmp.getClientId()) {
+                    item->setIcon(QIcon(tmp.getClientImage()));
+                    break;
+                }
+            }
+        }
+
         QByteArray responseMessage = QJsonDocument(responseObj).toJson();
         emit server->dataSendFromServer(responseMessage, socketDescriptor);
         return ;
