@@ -1,9 +1,0 @@
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/client.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/edit_cache.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/rebuild_cache.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/list_install_components.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/install.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/install/local.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/install/strip.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/client_autogen_timestamp_deps.dir
-C:/Users/Rito-492/Documents/client/build/Desktop_Qt_6_7_1_MinGW_64_bit-Debug/CMakeFiles/client_autogen.dir
